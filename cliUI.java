@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 
@@ -12,6 +11,9 @@ public class cliUI {
 		/**
 		 * 
 		 */
+		// Init a Game-Object
+		game = new Game(3, 3, 2);
+		// Start the Gameloop
 		runloop(); 
 	}
 	
@@ -19,10 +21,10 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		game = new Game(3, 3, 2);
-		
 		while (true){
+			// Output
 			printPlayground();
+			// wait on user input 
 			fetchUserInput();
 		}
 	}
@@ -33,10 +35,10 @@ public class cliUI {
 		 */
 		for (int i = 0; i < game.board.getWidth(); i++){
 			for (int j = 0; j < game.board.getHeight(); j++){
-				// [ Output i, j ]
+				// Print the square
 				printPinch(i,j);
-				// if % n >> newline
 			}
+			// New Line
 			System.out.println();
 		
 		}
@@ -51,27 +53,36 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		readInt("test");
-	}
-	
-	private void readInt(String outPt){
-		stdOutput(outPt);
-		int usrInput;
 		try{
-			usrInput = System.in.read();
+			readInt(">>> ");
 		}
 		catch (IOException e){
 			errOutput(e.getMessage());
 		}
 	}
 	
+	private int readInt(String outPt) throws IOException{
+		//@FIXME clear buffer
+		System.out.printf("%s ", outPt);
+		int usrInput;
+		usrInput = System.in.read();
+		return usrInput;
+	}
+	
 	private void stdOutput(String text){
+		/*
+		 * Prints a standard message on cli.
+		 */
 		System.out.printf("\t\t%s\n" , text);
 	}
 	
 	private void errOutput(String text){
+		/*
+		 * Prints a error message on cli.
+		 */
 		System.out.printf("Error:\t%s!\n", text);
 	}
+	
 	
 }
 
