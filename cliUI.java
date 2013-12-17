@@ -1,4 +1,3 @@
-package klickibunti;
 
 import java.io.IOException;
 

@@ -1,4 +1,3 @@
-package klickibunti;
 
 
 public class Game {
