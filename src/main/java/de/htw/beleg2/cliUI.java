@@ -14,7 +14,7 @@ public class cliUI {
 		 * 
 		 */
 		// Init a Game-Object
-		game = new Game(3, 3, 2);
+		game = new Game(15, 15, 5);
 		// Start the Gameloop
 		runloop(); 
 	}
@@ -64,10 +64,18 @@ public class cliUI {
 	}
 	
 	private int readInt(String outPt) throws IOException{
-		//@FIXME clear buffer
+		// FIXME clear buffer (Die Eingabe verarbeitet den Zeilenumbruch nachdem Int eingelesen)
 		System.out.printf("%s ", outPt);
 		int usrInput;
 		usrInput = System.in.read();
+		return usrInput;
+	}
+	
+	private String readString(String outPt) throws IOException{
+		System.out.printf("%s", outPt);
+		String usrInput = "";
+		// TODO Benutzereingabe (String bzw char)
+		//usrInput = System.in.read();
 		return usrInput;
 	}
 	
