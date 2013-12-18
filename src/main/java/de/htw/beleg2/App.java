@@ -1,7 +1,4 @@
 package de.htw.beleg2;
-
-
-
 /* what is needed?
  * 
  * [ ] Gamearea-Array n = 2
@@ -18,10 +15,6 @@ package de.htw.beleg2;
  * [ ] GUI
  * 
  */
-
-
-
-
 public class App {
 	/**
 	 * @author s0543196 

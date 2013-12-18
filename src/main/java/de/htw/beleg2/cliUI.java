@@ -1,7 +1,8 @@
 package de.htw.beleg2;
 
 import java.io.IOException;
-
+//Benutzerjeingabe
+import java.util.Scanner;
 
 public class cliUI {
 	/**
@@ -14,7 +15,7 @@ public class cliUI {
 		 * 
 		 */
 		// Init a Game-Object
-		game = new Game(15, 15, 5);
+		game = new Game(6, 6, 3);
 		// Start the Gameloop
 		runloop(); 
 	}
@@ -65,9 +66,8 @@ public class cliUI {
 	
 	private int readInt(String outPt) throws IOException{
 		// FIXME clear buffer (Die Eingabe verarbeitet den Zeilenumbruch nachdem Int eingelesen)
-		System.out.printf("%s ", outPt);
-		int usrInput;
-		usrInput = System.in.read();
+		Scanner scanit = new Scanner(System.in);
+		int usrInput = scanit.nextInt();
 		return usrInput;
 	}
 	
