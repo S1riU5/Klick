@@ -1,8 +1,8 @@
 package de.htw.beleg2;
 
 import java.io.IOException;
-//Benutzerjeingabe
-import java.util.Scanner;
+import java.util.Scanner; 				//input
+import static java.lang.System.out;		//output 
 
 public class cliUI {
 	/**
@@ -65,17 +65,29 @@ public class cliUI {
 	}
 	
 	private int readInt(String outPt) throws IOException{
-		// FIXME clear buffer (Die Eingabe verarbeitet den Zeilenumbruch nachdem Int eingelesen)
-		Scanner scanit = new Scanner(System.in);
-		int usrInput = scanit.nextInt();
+		/**
+		 * 
+		 */
+		int usrInput;
+		
+		out.printf("%s", outPt);
+		Scanner scanint = new Scanner(System.in);
+		try{
+			usrInput = Integer.parseInt(scanint.nextLine());
+		}
+		catch (NumberFormatException e){
+			throw new IOException("Misentry! Want Integer!");
+		}
 		return usrInput;
 	}
 	
 	private String readString(String outPt) throws IOException{
-		System.out.printf("%s", outPt);
-		String usrInput = "";
-		// TODO Benutzereingabe (String bzw char)
-		//usrInput = System.in.read();
+		/**
+		 * 
+		 */
+		out.printf("%s", outPt);
+		Scanner scanstr = new Scanner(System.in);
+		String usrInput = scanstr.nextLine();
 		return usrInput;
 	}
 	
@@ -83,7 +95,7 @@ public class cliUI {
 		/*
 		 * Prints a standard message on cli.
 		 */
-		System.out.printf("\t\t%s\n" , text);
+		out.printf("\t\t%s\n" , text);
 	}
 	
 	private void errOutput(String text){
