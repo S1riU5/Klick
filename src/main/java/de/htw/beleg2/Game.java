@@ -97,7 +97,7 @@ public class Game {
 			/*
 			 * initialize the values of the fields
 			 */
-			colors = cols;
+			setColors(cols);
 			for (int i = 0; i<getWidth(); i++){
 				for(int j = 0; j<getWidth(); j++ ){
 					area[i][j] = randInt(1, cols);
@@ -109,7 +109,20 @@ public class Game {
 			return area[x][y];
 		}
 		
-		public int valueofEqualNeighbors(int x, int y){
+		
+		
+			
+		public void deleteEqualNeighbors(int x, int y){
+			
+			//exit conditions first!
+			if (valueOfEqualNeighbors(x,y) == 0)
+				return;
+			//TODO Recursive deleting of equal neighbors
+			
+		}
+				
+		
+		public int valueOfEqualNeighbors(int x, int y){
 			/**
 			 * valueOfEqualNeighbors
 			 * 
@@ -127,6 +140,7 @@ public class Game {
 			}
 			return value;
 		}
+		
 		
 		private boolean sameValue(int x, int y, String direction)
 		throws IllegalStateException{
@@ -193,6 +207,14 @@ public class Game {
 			//return true if equal
 			return (valueHere == valueThere);
 			
+		}
+
+		public int getColors() {
+			return colors;
+		}
+
+		public void setColors(int colors) {
+			this.colors = colors;
 		}
 	}
 	
