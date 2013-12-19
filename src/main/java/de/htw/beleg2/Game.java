@@ -73,6 +73,47 @@ public class Game {
 		public int getValAt(int x, int y){
 			return area[x][y];
 		}
+		
+		public int howManyNeighbors(int x, int y){
+			int value = 0;
+			String[] nbrs = {"top", "right", "bottom", "left"};
+			
+			for (int i = 0; i < nbrs.length; i++){
+				if (sameValue(x,y, nbrs[i]))
+					value += 1;
+			}
+			return value;
+		}
+		
+		private boolean sameValue(int x, int y, String direction){
+			//if the earth a discb, be aware of the abyss!
+			if (	(x == 0 				&& direction == "left")  || 
+					(x == this.getWidth() 	&& direction == "right") ||
+					(y == 0					&& direction == "bottom")||
+					(y == this.getHeight()  && direction == "top"))
+				return false;
+			
+			int valueHere = getValAt(x,y);
+			int valueThere;
+			
+			switch (direction){
+			//Are the relative coordinates right this way??
+			case "top":
+				valueThere = getValAt(x,y+1);
+				break;
+			case "right":
+				valueThere = getValAt(x+1,y);
+				break;
+			case "bottom":
+				valueThere = getValAt(x,y-1);
+				break;
+			default:
+				valueThere = getValAt(x-1, y);			
+			}
+			//return true if equal
+			return (valueHere == valueThere);
+			
+		}
 	}
 	
 	
