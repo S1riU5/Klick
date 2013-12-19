@@ -109,7 +109,15 @@ public class Game {
 			return area[x][y];
 		}
 		
-		public int howManyEqualNeighbors(int x, int y){
+		public int valueofEqualNeighbors(int x, int y){
+			/**
+			 * valueOfEqualNeighbors
+			 * 
+			 * Get the amount of the equal Neighbors.
+			 * @param int x		column
+			 * @param int y		row
+			 * @return int	number of equal Neighbors (possible: 0 - 4)
+			 */
 			int value = 0;
 			String[] nbrs = {"top", "right", "bottom", "left"};
 			
@@ -120,7 +128,28 @@ public class Game {
 			return value;
 		}
 		
-		private boolean sameValue(int x, int y, String direction){
+		private boolean sameValue(int x, int y, String direction)
+		throws IllegalStateException{
+			/**
+			 * sameValue
+			 * 
+			 * Compares two bordering spaces.
+			 * 
+			 * @param int x		column
+			 * @param int y		row
+			 * @param String direction 
+			 * (possible: "top",  "right", "bottom", "left")
+			 * @return boolean	are the two spaces equal
+			 * @throws IllegalStateException	
+			 * if direction is not valid
+			 */
+			// Directions have to be very implicit!
+			if (	direction != "left"   ||
+					direction != "right"  ||
+					direction != "bottom" ||
+					direction != "top")
+				throw new IllegalStateException("Unknown direction");
+			
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == "left")  || 
 					(x == this.getWidth() 	&& direction == "right") ||
@@ -133,6 +162,22 @@ public class Game {
 			
 			switch (direction){
 			//Are the relative coordinates right this way??
+			
+			/*  
+			 * just for imagination. 
+			 * 
+			 * 			^(y)
+			 * 			|	  t
+			 * 			|
+			 * 			|	l * r
+			 * 			|	 
+			 * 			|	  b
+			 * ---------+------------>
+			 * 			|			(x)
+			 * 			|
+			 * 			|
+			 * 			
+			 *****************************/
 			case "top":
 				valueThere = getValAt(x  , y+1);
 				break;
