@@ -1,4 +1,5 @@
 package de.htw.beleg2;
+import static java.lang.Math.random;
 
 
 public class Game {
@@ -8,28 +9,59 @@ public class Game {
 	Board board;
 	
 	public Game(int height, int width, int cols){
+		/**
+		 * Game
+		 * 
+		 * Game-engine for the logical stuff of this game.
+		 * 
+		 * @param int height	Height of the board
+		 * @param int width		WIdth of the board
+		 * @param int cols		Amount of the Colors 
+		 */
 		board = new Board(width, cols);
+		// Never build an empty board!
 		fillBoard(cols);
 	}
 	
 	private  void fillBoard(int colors){
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
+				// Integer randomized value 
+				// from 1 to the value of colors
 				board.area[i][j] = randInt(1, colors);
 			}
 		}	
 	}
 	
 	private int randInt( int low, int high ){
-	
-		return low + (int)(Math.random() * ((high - low) + 1));
+		/**
+		 * randInt
+		 * 
+		 * Simple Method to get randomized Integer inside 
+		 * freely selectable range.
+		 * 
+		 * @param int low	lowest possible Value
+		 * @param int high	highest possible Value
+		 * @return int Randomized Integer
+		 */
+		return low + (int)(random() * ((high - low) + 1));
 	}
 	
 	
 	
 	public int getColor(int x, int y){
+		/**
+		 * getColor
+		 * 
+		 * getter for the Colorvalue of a space of the board
+		 * 
+		 * @param int x		value of columns 
+		 * @param int y		value of rows
+		 * @returns int 	value refers to a color
+		 */
 		if (board.getHeight() == 0 || board.getWidth() == 0)
-				throw new IllegalStateException("Spielfeld noch nicht initialisiert!");
+				throw new IllegalStateException(
+						"Spielfeld noch nicht initialisiert!");
 		else
 			return  board.getValAt(x, y);
 	}
@@ -37,6 +69,9 @@ public class Game {
 
 	
 	public class Board{
+		/**
+		 * Boardclass
+		 */
 		private int [][] area;
 		private int colors; // 0 = empty 
 		
@@ -74,7 +109,7 @@ public class Game {
 			return area[x][y];
 		}
 		
-		public int howManyNeighbors(int x, int y){
+		public int howManyEqualNeighbors(int x, int y){
 			int value = 0;
 			String[] nbrs = {"top", "right", "bottom", "left"};
 			
@@ -86,7 +121,7 @@ public class Game {
 		}
 		
 		private boolean sameValue(int x, int y, String direction){
-			//if the earth a discb, be aware of the abyss!
+			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == "left")  || 
 					(x == this.getWidth() 	&& direction == "right") ||
 					(y == 0					&& direction == "bottom")||
@@ -99,13 +134,13 @@ public class Game {
 			switch (direction){
 			//Are the relative coordinates right this way??
 			case "top":
-				valueThere = getValAt(x,y+1);
+				valueThere = getValAt(x  , y+1);
 				break;
 			case "right":
-				valueThere = getValAt(x+1,y);
+				valueThere = getValAt(x+1, y);
 				break;
 			case "bottom":
-				valueThere = getValAt(x,y-1);
+				valueThere = getValAt(x  , y-1);
 				break;
 			default:
 				valueThere = getValAt(x-1, y);			
