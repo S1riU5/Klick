@@ -1,6 +1,8 @@
 package de.htw.beleg2;
-
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.NumberFormatException;
 import java.util.Scanner; //input
 import static java.lang.System.out; //output 
 
@@ -78,13 +80,17 @@ public class cliUI {
 		int usrInput;
 
 		out.printf("%s", outPt);
-		//FIXME EXEPTION  java.util.NoSuchElementException:
-		Scanner scanint = new Scanner(System.in);
-		try {
-			usrInput = Integer.parseInt(scanint.nextLine());
-			scanint.close();
-		} catch (NumberFormatException e) {
-			throw new IOException("Invalid input! Need integer!");
+		
+		
+		
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		try{
+			usrInput=Integer.parseInt(br.readLine());
+		}
+		catch(NumberFormatException e)
+		{
+			throw new IOException("Need Integer");
 		}
 		return usrInput;
 	}

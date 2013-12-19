@@ -132,7 +132,7 @@ public class Game {
 			 * @return int	number of equal Neighbors (possible: 0 - 4)
 			 */
 			int value = 0;
-			String[] nbrs = {"top", "right", "bottom", "left"};
+			char[] nbrs = {'t', 'r', 'b', 'l'};
 			
 			for (int i = 0; i < nbrs.length; i++){
 				if (sameValue(x,y, nbrs[i]))
@@ -142,7 +142,7 @@ public class Game {
 		}
 		
 		
-		private boolean sameValue(int x, int y, String direction)
+		private boolean sameValue(int x, int y, char direction)
 		throws IllegalStateException{
 			/**
 			 * sameValue
@@ -152,30 +152,30 @@ public class Game {
 			 * @param int x		column
 			 * @param int y		row
 			 * @param String direction 
-			 * (possible: "top",  "right", "bottom", "left")
+			 * (possible: "t",  "r", "b", "l")
 			 * @return boolean	are the two spaces equal
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */
 			// Directions have to be very implicit!
-			if (	direction != "left"   ||
-					direction != "right"  ||
-					direction != "bottom" ||
-					direction != "top")
+			if (	direction != 'l'   ||
+					direction != 'r'  ||
+					direction != 'b' ||
+					direction != 't')
 				throw new IllegalStateException("Unknown direction");
 			
 			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 				&& direction == "left")  || 
-					(x == this.getWidth() 	&& direction == "right") ||
-					(y == 0					&& direction == "bottom")||
-					(y == this.getHeight()  && direction == "top"))
+			if (	(x == 0 				&& direction == 'l')  || 
+					(x == this.getWidth() 	&& direction == 'r') ||
+					(y == 0					&& direction == 'b')||
+					(y == this.getHeight()  && direction == 't'))
 				return false;
 			
 			int valueHere = getValAt(x,y);
 			int valueThere;
 			
 			switch (direction){
-			//Are the relative coordinates right this way??
+			//Are the relative coordinates r this way??
 			
 			/*  
 			 * just for imagination. 
@@ -192,13 +192,13 @@ public class Game {
 			 * 			|
 			 * 			
 			 *****************************/
-			case "top":
+			case 't':
 				valueThere = getValAt(x  , y+1);
 				break;
-			case "right":
+			case 'r':
 				valueThere = getValAt(x+1, y);
 				break;
-			case "bottom":
+			case 'b':
 				valueThere = getValAt(x  , y-1);
 				break;
 			default:
