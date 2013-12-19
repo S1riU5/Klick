@@ -1,4 +1,4 @@
-package klickibunti;
+package de.htw.beleg2;
 
 
 public class Game {
