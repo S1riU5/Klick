@@ -80,6 +80,7 @@ public class cliUI {
 		int usrInput;
 		
 		out.printf("%s", outPt);
+		//FIXME EXEPTION  java.util.NoSuchElementException:
 		Scanner scanint = new Scanner(System.in);
 		try{
 			usrInput = Integer.parseInt(scanint.nextLine());
