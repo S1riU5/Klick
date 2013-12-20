@@ -118,6 +118,17 @@ public class Game {
 			if (valueOfEqualNeighbors(x,y) == 0)
 				return;
 			//TODO Recursive deleting of equal neighbors
+			int currentValue = getValAt(x,y);
+			deleteElement(x,y);
+			//TODO testing & debugging (ich trau mich gerade nicht ;) )
+			if (sameValue(x,y,'t'))
+				deleteEqualNeighbors(x  , y+1);
+			if (sameValue(x,y,'r'))
+				deleteEqualNeighbors(x+1, y);
+			if (sameValue(x,y,'b'))
+				deleteEqualNeighbors(x  , y-1);
+			if (sameValue(x,y,'l'))
+				deleteEqualNeighbors(x-1, y);
 			
 		}
 				
@@ -215,6 +226,10 @@ public class Game {
 
 		public void setColors(int colors) {
 			this.colors = colors;
+		}
+		
+		public void deleteElement(int x, int y){
+			this.area[x][y] = 0;
 		}
 	}
 	
