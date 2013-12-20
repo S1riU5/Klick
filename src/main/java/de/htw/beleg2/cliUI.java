@@ -84,12 +84,12 @@ public class cliUI {
 		
 		
 	
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader br = new BufferedReader(
+				new InputStreamReader(System.in));
 		try{
 			usrInput=Integer.parseInt(br.readLine());
 		}
-		catch(NumberFormatException e)
-		{
+		catch(NumberFormatException e){
 			throw new IOException("Need Integer");
 		}
 		return usrInput;
