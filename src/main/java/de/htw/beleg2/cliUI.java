@@ -83,7 +83,8 @@ public class cliUI {
 		
 		
 		
-	
+		// Do we have to save the BufferedReader?
+		// And if yes, what will be the return value ??
 		BufferedReader br = new BufferedReader(
 				new InputStreamReader(System.in));
 		try{
