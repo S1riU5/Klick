@@ -107,6 +107,12 @@ public class Game {
 		
 		public int getValAt(int x, int y){
 			//FIXME IndexOutOfBoundsException
+			// Maybe there is a Problem in parsing the chars t, , l, r
+			// to the actual direction..
+			// Switched them yet but nothing changed.
+			// but its the call from:
+			// >> sameValue() <<
+			//System.out.printf("x:\t%s\ty:\t%s", x, y); //debug
 			return area[x][y];
 
 			
@@ -180,12 +186,12 @@ public class Game {
 			//		direction != 'b' ||
 			//		direction != 't')
 			//	throw new IllegalStateException("Unknown direction");
-			System.out.printf("%s\n" , direction);
+			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == 'r')  || 
-					(x == this.getWidth() 	&& direction == 'l') ||
+					(x == this.getWidth()-1 	&& direction == 'l') ||
 					(y == 0					&& direction == 'b')||
-					(y == this.getHeight()  && direction == 't'))
+					(y == this.getHeight()-1  && direction == 't'))
 				return false;
 			
 			int valueThere;
@@ -208,13 +214,13 @@ public class Game {
 			 * 			|
 			 * 			
 			 *****************************/
-			case 't':
+			case 'b':
 				valueThere = getValAt(x  , y+1);
 				break;
-			case 'r':
+			case 'l':
 				valueThere = getValAt(x+1, y);
 				break;
-			case 'b':
+			case 't':
 				valueThere = getValAt(x  , y-1);
 				break;
 			default:
