@@ -34,6 +34,7 @@ public class cliUI {
 			// Output
 			printPlayground();
 			// wait on user input
+			deleteElement(2,2);
 			fetchUserInput();
 		}
 	}
@@ -56,6 +57,10 @@ public class cliUI {
 	private void printPinch(int x, int y) {
 		System.out.printf("[%s]", game.board.getValAt(x, y));
 
+	}
+	
+	private void deleteElement(int x,int y){
+		game.board.deleteEqualNeighbors(x, y);
 	}
 
 	private void fetchUserInput() {

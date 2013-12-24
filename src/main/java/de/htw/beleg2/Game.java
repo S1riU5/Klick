@@ -106,7 +106,10 @@ public class Game {
 		}
 		
 		public int getValAt(int x, int y){
+			//FIXME IndexOutOfBoundsException
 			return area[x][y];
+
+			
 		}
 		
 		
@@ -122,14 +125,14 @@ public class Game {
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
 			deleteElement(x,y);
-			//TODO testing & debugging (ich trau mich gerade nicht ;) )
-			if (sameValue(x,y,'t'))
+			//TODO testing & debugging  
+			if (sameValue(currentValue, x,y,'t'))
 				deleteEqualNeighbors(x  , y+1);
-			if (sameValue(x,y,'r'))
+			if (sameValue(currentValue, x,y,'r'))
 				deleteEqualNeighbors(x+1, y);
-			if (sameValue(x,y,'b'))
+			if (sameValue(currentValue, x,y,'b'))
 				deleteEqualNeighbors(x  , y-1);
-			if (sameValue(x,y,'l'))
+			if (sameValue(currentValue, x,y,'l'))
 				deleteEqualNeighbors(x-1, y);
 			
 		}
@@ -148,14 +151,14 @@ public class Game {
 			char[] nbrs = {'t', 'r', 'b', 'l'};
 			
 			for (int i = 0; i < nbrs.length; i++){
-				if (sameValue(x,y, nbrs[i]))
+				if (sameValue(getValAt(x,y),x,y, nbrs[i]))
 					value += 1;
 			}
 			return value;
 		}
 		
 		
-		private boolean sameValue(int x, int y, char direction)
+		private boolean sameValue(int valueHere, int x, int y, char direction)
 		throws IllegalStateException{
 			/**
 			 * sameValue
@@ -171,20 +174,20 @@ public class Game {
 			 * if direction is not valid
 			 */
 			// Directions have to be very implicit!
-			if (	direction != 'l'   ||
-					direction != 'r'  ||
-					direction != 'b' ||
-					direction != 't')
-				throw new IllegalStateException("Unknown direction");
-			
+			//FIXME Exception throws because of nothing
+			//if (	direction != 'l' ||
+			//		direction != 'r' ||
+			//		direction != 'b' ||
+			//		direction != 't')
+			//	throw new IllegalStateException("Unknown direction");
+			System.out.printf("%s\n" , direction);
 			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 				&& direction == 'l')  || 
-					(x == this.getWidth() 	&& direction == 'r') ||
+			if (	(x == 0 				&& direction == 'r')  || 
+					(x == this.getWidth() 	&& direction == 'l') ||
 					(y == 0					&& direction == 'b')||
 					(y == this.getHeight()  && direction == 't'))
 				return false;
 			
-			int valueHere = getValAt(x,y);
 			int valueThere;
 			
 			switch (direction){
@@ -199,7 +202,7 @@ public class Game {
 			 * 			|	l * r
 			 * 			|	 
 			 * 			|	  b
-			 * ---------+------------>
+			 * ---------+------------>b
 			 * 			|			(x)
 			 * 			|
 			 * 			|
