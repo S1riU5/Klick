@@ -124,14 +124,20 @@ public class Game {
 		public void deleteEqualNeighbors(int x, int y){
 			
 			//exit conditions first!
-			if (valueOfEqualNeighbors(x,y) == 0)
+			if (valueOfEqualNeighbors(x,y) == 0){
+				//System.out.printf("No Equal neighbors!\n"); //debug
+				deleteElement(x,y);
 				return;
+			}
+			deleteElement(x,y);
+
 			//TODO Recursive deleting of equal neighbors
 			int currentValue = getValAt(x,y);
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
-			deleteElement(x,y);
-			//TODO testing & debugging  
+			//TODO testing & debugging
+			//FIXME Recursive call don't happen because of.. 
+			// I fuckin don't know
 			if (sameValue(currentValue, x,y,'t'))
 				deleteEqualNeighbors(x  , y+1);
 			if (sameValue(currentValue, x,y,'r'))
@@ -186,14 +192,14 @@ public class Game {
 			//		direction != 'b' ||
 			//		direction != 't')
 			//	throw new IllegalStateException("Unknown direction");
-			System.out.printf("%s\n" , direction); //debug
+			//System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 				&& direction == 'r')  || 
-					(x == this.getWidth()-1 	&& direction == 'l') ||
-					(y == 0					&& direction == 'b')||
-					(y == this.getHeight()-1  && direction == 't'))
+			if (	(x == 0 				&& direction == 'l')  || 
+					(x == this.getWidth()-1 	&& direction == 'r') ||
+					(y == 0					&& direction == 't')||
+					(y == this.getHeight()-1  && direction == 'b'))
 				return false;
-			
+			//System.out.printf("not at border\n");
 			int valueThere;
 			
 			switch (direction){
@@ -213,20 +219,21 @@ public class Game {
 			 * 			|
 			 * 			|
 			 * 			
-			 *****************************/
+			 **********************format*******/
 			case 'b':
 				valueThere = getValAt(x  , y+1);
 				break;
-			case 'l':
+			case 'r':
 				valueThere = getValAt(x+1, y);
 				break;
 			case 't':
 				valueThere = getValAt(x  , y-1);
 				break;
 			default:
-				valueThere = getValAt(x-1, y);			
+				valueThere = getValAt(x-1, y);
 			}
 			//return true if equal
+			//System.out.printf("%s=%s => %s\n" ,valueHere, valueThere, valueHere == valueThere);
 			return (valueHere == valueThere);
 			
 		}
