@@ -141,19 +141,19 @@ public class Game {
 			//FIXME Recursive call happens to several values, because
 			// I fuckin don't know
 			if (sameValue(currentValue, x,y,'t')){
-				System.out.printf("DEBUG: top\n");
+				System.out.printf("Mooving cursor to: top (%sx%s)\n", x, y-1);
 				deleteEqualNeighbors(x  , y-1);
 			}
 			if (sameValue(currentValue, x,y,'r')){
-				System.out.printf("DEBUG: right\n");
+				System.out.printf("Mooving cursor to: right(%sx%s)\n", x+1,y);
 				deleteEqualNeighbors(x+1 , y);
 			}
 			if (sameValue(currentValue, x,y,'b')){
-				System.out.printf("DEBUG: bottom\n");
+				System.out.printf("Mooving cursor to: bottom(%sx%s)\n" ,x, y+1);
 				deleteEqualNeighbors(x  , y+1);
 				}
 			if (sameValue(currentValue, x,y,'l')){
-				System.out.printf("DEBUG: left");
+				System.out.printf("Mooving cursor to: left(%sx%s)\n", x-1,y);
 				deleteEqualNeighbors(x-1, y);
 				}
 			
@@ -209,9 +209,9 @@ public class Game {
 			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == 'l')  || 
-					(x > this.getWidth() 	&& direction == 'r') ||
+					(x >= this.getWidth()-1 	&& direction == 'r') ||
 					(y == 0					&& direction == 't')||
-					(y > this.getHeight()  && direction == 'b'))
+					(y >= this.getHeight()-1  && direction == 'b'))
 				return false;
 			//System.out.printf("not at border\n");
 			int valueThere;
