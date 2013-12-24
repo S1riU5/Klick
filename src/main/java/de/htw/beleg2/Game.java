@@ -106,7 +106,8 @@ public class Game {
 		}
 		
 		public int getValAt(int x, int y){
-			//FIXME IndexOutOfBoundsException
+			//FIXEDME IndexOutOfBoundsException
+			//TODO May the problem don't occur anymore, but keep it in sight
 			// Maybe there is a Problem in parsing the chars t, , l, r
 			// to the actual direction..
 			// Switched them yet but nothing changed.
@@ -129,18 +130,19 @@ public class Game {
 				deleteElement(x,y);
 				return;
 			}
-
+			if (getValAt(x,y) == 0)
+				return;
 			//TODO Recursive deleting of equal neighbors
 			int currentValue = getValAt(x,y);
 			deleteElement(x,y);
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
 			//TODO testing & debugging
-			//FIXME Recursive call don't happen because of.. 
+			//FIXME Recursive call happens to several values, because
 			// I fuckin don't know
 			if (sameValue(currentValue, x,y,'t')){
 				System.out.printf("DEBUG: top\n");
-				deleteEqualNeighbors(x  , y+1);
+				deleteEqualNeighbors(x  , y-1);
 			}
 			if (sameValue(currentValue, x,y,'r')){
 				System.out.printf("DEBUG: right\n");
@@ -148,7 +150,7 @@ public class Game {
 			}
 			if (sameValue(currentValue, x,y,'b')){
 				System.out.printf("DEBUG: bottom\n");
-				deleteEqualNeighbors(x  , y-1);
+				deleteEqualNeighbors(x  , y+1);
 				}
 			if (sameValue(currentValue, x,y,'l')){
 				System.out.printf("DEBUG: left");
@@ -193,6 +195,8 @@ public class Game {
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */
+			
+			
 			// Directions have to be very implicit!
 			//FIXME Exception throws because of nothing
 			//if (	direction != 'l' ||
@@ -200,34 +204,21 @@ public class Game {
 			//		direction != 'b' ||
 			//		direction != 't')
 			//	throw new IllegalStateException("Unknown direction");
-			//System.out.printf("%s\n" , direction); //debug
+			
+			
+			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == 'l')  || 
-					(x == this.getWidth()-1 	&& direction == 'r') ||
+					(x > this.getWidth() 	&& direction == 'r') ||
 					(y == 0					&& direction == 't')||
-					(y == this.getHeight()-1  && direction == 'b'))
+					(y > this.getHeight()  && direction == 'b'))
 				return false;
 			//System.out.printf("not at border\n");
 			int valueThere;
 			
 			switch (direction){
-			//Are the relative coordinates r this way??
+			//Are the relative coordinates right this way??
 			
-			/*  
-			 * just for imagination. 
-			 * 
-			 * 			^(y)
-			 * 			|	  t
-			 * 			|
-			 * 			|	l * r
-			 * 			|	 
-			 * 			|	  b
-			 * ---------+------------>b
-			 * 			|			(x)
-			 * 			|
-			 * 			|
-			 * 			
-			 **********************format*******/
 			case 'b':
 				valueThere = getValAt(x  , y+1);
 				break;
@@ -255,6 +246,8 @@ public class Game {
 		}
 		
 		public void deleteElement(int x, int y){
+			System.out.printf("deleting Element: %s; %s with Value: %s\n", 
+					x,y,getValAt(x,y));
 			this.area[x][y] = 0;
 		}
 	}
