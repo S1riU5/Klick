@@ -119,6 +119,8 @@ public class Game {
 				return;
 			//TODO Recursive deleting of equal neighbors
 			int currentValue = getValAt(x,y);
+			// Delete here first 
+			// if not philosophers don't eat the pasta.
 			deleteElement(x,y);
 			//TODO testing & debugging (ich trau mich gerade nicht ;) )
 			if (sameValue(x,y,'t'))
