@@ -169,6 +169,14 @@ public class Game {
 			 * @param int y		row
 			 * @return int	number of equal Neighbors (possible: 0 - 4)
 			 */
+			
+			
+			// TODO Zerospaces shouldn't handled at all
+			// Where is the big red button which will turn this off? 
+			
+			// Neighbors of deleted Areas may be not worth looking at
+			if (getValAt(x,y) == 0)
+				return 0;
 			int value = 0;
 			char[] nbrs = {'t', 'r', 'b', 'l'};
 			
