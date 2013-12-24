@@ -129,23 +129,31 @@ public class Game {
 				deleteElement(x,y);
 				return;
 			}
-			deleteElement(x,y);
 
 			//TODO Recursive deleting of equal neighbors
 			int currentValue = getValAt(x,y);
+			deleteElement(x,y);
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
 			//TODO testing & debugging
 			//FIXME Recursive call don't happen because of.. 
 			// I fuckin don't know
-			if (sameValue(currentValue, x,y,'t'))
+			if (sameValue(currentValue, x,y,'t')){
+				System.out.printf("DEBUG: top\n");
 				deleteEqualNeighbors(x  , y+1);
-			if (sameValue(currentValue, x,y,'r'))
-				deleteEqualNeighbors(x+1, y);
-			if (sameValue(currentValue, x,y,'b'))
+			}
+			if (sameValue(currentValue, x,y,'r')){
+				System.out.printf("DEBUG: right\n");
+				deleteEqualNeighbors(x+1 , y);
+			}
+			if (sameValue(currentValue, x,y,'b')){
+				System.out.printf("DEBUG: bottom\n");
 				deleteEqualNeighbors(x  , y-1);
-			if (sameValue(currentValue, x,y,'l'))
+				}
+			if (sameValue(currentValue, x,y,'l')){
+				System.out.printf("DEBUG: left");
 				deleteEqualNeighbors(x-1, y);
+				}
 			
 		}
 				
@@ -233,7 +241,7 @@ public class Game {
 				valueThere = getValAt(x-1, y);
 			}
 			//return true if equal
-			//System.out.printf("%s=%s => %s\n" ,valueHere, valueThere, valueHere == valueThere);
+			System.out.printf("%s=%s => %s\n" ,valueHere, valueThere, valueHere == valueThere); 
 			return (valueHere == valueThere);
 			
 		}
