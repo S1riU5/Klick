@@ -26,9 +26,14 @@ public class Game {
 	private  void fillBoard(int colors){
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
+				
+				// Testcase for filling-method 
+				if (i == 2)
+					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
-				board.area[i][j] = randInt(1, colors);
+				else
+					board.area[i][j] = randInt(1, colors);
 			}
 		}	
 	}
@@ -138,8 +143,7 @@ public class Game {
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
 			//TODO testing & debugging
-			//FIXME Recursive call happens to several values, because
-			// I fuckin don't know
+			
 			if (sameValue(currentValue, x,y,'t')){
 				System.out.printf("Mooving cursor to: top (%sx%s)\n", x, y-1);
 				deleteEqualNeighbors(x  , y-1);
@@ -257,6 +261,59 @@ public class Game {
 			System.out.printf("deleting Element: %s; %s with Value: %s\n", 
 					x,y,getValAt(x,y));
 			this.area[x][y] = 0;
+		}
+		
+		private boolean boardEmpty(){
+			/**
+			 * empty
+			 * 
+			 * @return boolean if the whole Board empty.
+			 */
+			for (int i = 0; i<this.getWidth()-1; i++){
+				for (int j = 0; j<this.getHeight()-1; j++){
+					if (getValAt(i,j) != 0)
+						return (false);
+				}
+			}
+			return (true);
+		}
+		
+		private boolean findGap(){
+			/**
+			 * findGap()
+			 * 
+			 * @returns boolean  gap found
+			 */
+			// Spalten
+			for (int i= 0; i< this.getWidth(); i++){
+				for (int j = 0; j < this.getHeight(); j++){
+					if (this.getValAt(i, j) != 0)
+						continue;
+				}
+				return (true);
+			}
+			//Zeilen
+			for (int i= 0; i< this.getHeight(); i++){
+				for (int j = 0; j < this.getWidth(); j++){
+					if (this.getValAt(i, j) != 0)
+						continue;
+				}
+				return (true);
+			}
+			
+		
+			//NIX
+			return (false);
+			
+			
+		}
+		
+		private void fillGap(){
+			
+		}
+		
+		private void success( ){
+			System.exit(0);
 		}
 	}
 	

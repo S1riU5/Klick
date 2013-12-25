@@ -19,7 +19,7 @@ public class cliUI {
 		// Init a Game-Object
 		// TODO Method to set easy Playground
 		// TODO Testobject for testing Playgrounds
-		game = new Game(16, 16, 1); // Size: 6x6; Colors: 1,2,3
+		game = new Game(6, 6, 1); // Size: 6x6; Colors: 1,2,3
 
 		// Start the Gameloop
 		// TODO Exception needed? If yes, which?
@@ -34,7 +34,7 @@ public class cliUI {
 			// Output
 			printPlayground();
 			// wait on user input
-			deleteElement(2,2);
+			//deleteElement(2,2);
 			fetchUserInput();
 		}
 	}
