@@ -284,6 +284,8 @@ public class Game {
 			 * 
 			 * @returns boolean  gap found
 			 */
+			
+			//TODO rebuild with returning of place of the first gap
 			// Spalten
 			for (int i= 0; i< this.getWidth(); i++){
 				for (int j = 0; j < this.getHeight(); j++){
@@ -300,12 +302,8 @@ public class Game {
 				}
 				return (true);
 			}
-			
-		
 			//NIX
 			return (false);
-			
-			
 		}
 		
 		private void fillGap(){
