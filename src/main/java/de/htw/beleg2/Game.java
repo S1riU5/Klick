@@ -272,24 +272,30 @@ public class Game {
 			
 			// https://code.stypi.com/xlsikwef
 			int[] firstGap = {0,0};
-
+			int count;
 			for (int i = 0; i < this.getWidth(); i++){
+				count = 0;
 				for (int j = 0; j < this.getHeight(); j++){
 					//FIXME firstGap Algo
 					// This algo don't work this way.. see continue ... 
-					if (this.getValAt(i, j) != 0)
-						continue;
+					if (this.getValAt(i, j) == 0)
+						count += 1;
 				}
-				firstGap[0] = i;
-				return (firstGap);
+				if (count > 0){
+					firstGap[0] = i;
+					return (firstGap);
+				}
 			}
 			for (int i= 0; i< this.getHeight(); i++){
+				count = 0;
 				for (int j = 0; j < this.getWidth(); j++){
-					if (this.getValAt(i, j) != 0)
-						continue;
+					if (this.getValAt(i, j) == 0)
+						count += 1;
 				}
-				firstGap[1] = i;
-				return (firstGap);
+				if (count > 0){
+					firstGap[1] = i;
+					return (firstGap);
+				}
 			}
 			//NIX
 			return (firstGap);
@@ -302,10 +308,10 @@ public class Game {
 			while (true){
 				int[] gaps = findGap();
 				if (gaps[0] != 0){
-					fillVertical(gaps[0]);
+					fillHorizontal(gaps[0]);
 				}
 				else if (gaps[1] != 0){
-					fillHorizontal(gaps[1]);
+					fillVertical(gaps[1]);
 				}
 				else{
 					break;
@@ -317,8 +323,8 @@ public class Game {
 			/**
 			 * 
 			 */
-			for (int i = value; i >= 0; i--){
-				for (int j = this.getWidth(); j >= 0; j-- ){
+			for (int i = value-1; i >= 0; i--){
+				for (int j = this.getWidth()-1; j >= 0; j-- ){
 					if (i == 0)
 						board.area[i][j] = 0;
 					else
@@ -331,7 +337,7 @@ public class Game {
 			/**
 			 * 
 			 */
-			for (int i = this.getHeight(); i >= 0; i--){
+			for (int i = this.getHeight()-1; i >= 0; i--){
 				for (int j = value; j >= 0; j-- ){
 					if (j == 0)
 						board.area[j][j] = 0;
