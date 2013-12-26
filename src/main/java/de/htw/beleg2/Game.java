@@ -26,7 +26,6 @@ public class Game {
 	private  void fillBoard(int colors){
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
-				
 				// Testcase for filling-method 
 				if (i == 2)
 					board.area[i][j] = 0;
@@ -119,13 +118,8 @@ public class Game {
 			// >> sameValue() <<
 			//System.out.printf("x:\t%s\ty:\t%s", x, y); //debug
 			return area[x][y];
-
-			
 		}
 		
-		
-		
-			
 		public void deleteEqualNeighbors(int x, int y){
 			
 			//exit conditions first!
@@ -141,8 +135,7 @@ public class Game {
 			deleteElement(x,y);
 			// Delete here first 
 			// if not philosophers don't eat the pasta.
-			//TODO testing & debugging
-			
+			//TODO testing & debugging	
 			if (sameValue(currentValue, x,y,'t')){
 				System.out.printf("Mooving cursor to: top (%sx%s)\n", x, y-1);
 				deleteEqualNeighbors(x  , y-1);
@@ -159,10 +152,8 @@ public class Game {
 				System.out.printf("Mooving cursor to: left(%sx%s)\n", x-1,y);
 				deleteEqualNeighbors(x-1, y);
 				}
-			
 		}
-				
-		
+
 		public int valueOfEqualNeighbors(int x, int y){
 			/**
 			 * valueOfEqualNeighbors
@@ -171,12 +162,9 @@ public class Game {
 			 * @param int x		column
 			 * @param int y		row
 			 * @return int	number of equal Neighbors (possible: 0 - 4)
-			 */
-			
-			
+			 */			
 			// TODO Zerospaces shouldn't handled at all
 			// Where is the big red button which will turn this off? 
-			
 			// Neighbors of deleted Areas may be not worth looking at
 			if (getValAt(x,y) == 0)
 				return 0;
@@ -189,7 +177,6 @@ public class Game {
 			}
 			return value;
 		}
-		
 		
 		private boolean sameValue(int valueHere, int x, int y, char direction)
 		throws IllegalStateException{
@@ -205,16 +192,14 @@ public class Game {
 			 * @return boolean	are the two spaces equal
 			 * @throws IllegalStateException	
 			 * if direction is not valid
-			 */
-			
-			
+			 */	
 			// Directions have to be very implicit!
-			//FIXME Exception throws because of nothing
-			//if (	direction != 'l' ||
-			//		direction != 'r' ||
-			//		direction != 'b' ||
-			//		direction != 't')
-			//	throw new IllegalStateException("Unknown direction");
+			
+			if (	direction != 'l' &&
+					direction != 'r' &&
+					direction != 'b' &&
+					direction != 't')
+				throw new IllegalStateException("Unknown direction");
 			
 			
 			System.out.printf("%s\n" , direction); //debug
@@ -285,11 +270,7 @@ public class Game {
 			 */
 			
 			int[] firstGap = {0,0};
-			
-			//TODO rebuild with returning of place of the first gap
-			// return of a list. 
-			// [x][0]  (x for rowcount) 
-			// [0][x]  (X)
+			//Spalten
 			for (int i= 0; i< this.getWidth(); i++){
 				for (int j = 0; j < this.getHeight(); j++){
 					if (this.getValAt(i, j) != 0)

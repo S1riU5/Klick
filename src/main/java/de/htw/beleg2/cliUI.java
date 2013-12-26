@@ -34,7 +34,7 @@ public class cliUI {
 			// Output
 			printPlayground();
 			// wait on user input
-			//deleteElement(2,2);
+			//deleteElement(5,3);
 			fetchUserInput();
 		}
 	}
