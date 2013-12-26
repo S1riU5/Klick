@@ -35,6 +35,7 @@ public class cliUI {
 			printPlayground();
 			// wait on user input
 			//deleteElement(5,3);
+			game.board.fillGaps();
 			fetchUserInput();
 		}
 	}

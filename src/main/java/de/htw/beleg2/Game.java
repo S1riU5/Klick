@@ -1,5 +1,6 @@
 package de.htw.beleg2;
 import static java.lang.Math.random;
+import java.util.Arrays;
 
 
 public class Game {
@@ -205,17 +206,16 @@ public class Game {
 				throw new IllegalStateException("Unknown direction");
 			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 				&& direction == 'l')  || 
+			if (	(x == 0 					&& direction == 'l')  || 
 					(x >= this.getWidth()-1 	&& direction == 'r') ||
-					(y == 0					&& direction == 't')||
-					(y >= this.getHeight()-1  && direction == 'b'))
+					(y == 0						&& direction == 't')||
+					(y >= this.getHeight()-1  	&& direction == 'b'))
 				return false;
 			//System.out.printf("not at border\n");
 			int valueThere;
 			
 			switch (direction){
 			//Are the relative coordinates right this way??
-			
 			case 'b':
 				valueThere = getValAt(x  , y+1);
 				break;
@@ -269,17 +269,20 @@ public class Game {
 			 * 
 			 * @returns int[2] 
 			 */
+			
+			// https://code.stypi.com/xlsikwef
 			int[] firstGap = {0,0};
-			//Spalten
-			for (int i= 0; i< this.getWidth(); i++){
+
+			for (int i = 0; i < this.getWidth(); i++){
 				for (int j = 0; j < this.getHeight(); j++){
+					//FIXME firstGap Algo
+					// This algo don't work this way.. see continue ... 
 					if (this.getValAt(i, j) != 0)
 						continue;
 				}
 				firstGap[0] = i;
 				return (firstGap);
 			}
-			//Zeilen
 			for (int i= 0; i< this.getHeight(); i++){
 				for (int j = 0; j < this.getWidth(); j++){
 					if (this.getValAt(i, j) != 0)
@@ -292,15 +295,21 @@ public class Game {
 			return (firstGap);
 		}
 		
-		private void fillGaps(char direction, int value){
+		public void fillGaps(){
 			/**
 			 * 
 			 */
-			while (findGap()[0] != 0 && findGap()[1] != 0){
-				if (findGap()[0] != 0)
-					fillVertical(findGap()[0]);
-				else
-					fillVertical(findGap()[1]);
+			while (true){
+				int[] gaps = findGap();
+				if (gaps[0] != 0){
+					fillVertical(gaps[0]);
+				}
+				else if (gaps[1] != 0){
+					fillHorizontal(gaps[1]);
+				}
+				else{
+					break;
+				}
 			}
 		}
 		
@@ -309,7 +318,12 @@ public class Game {
 			 * 
 			 */
 			for (int i = value; i >= 0; i--){
-					board.area[i] = board.area[i+1];
+				for (int j = this.getWidth(); j >= 0; j-- ){
+					if (i == 0)
+						board.area[i][j] = 0;
+					else
+						board.area[i+1][j] = board.area[i][j];
+				}
 			}
 		}
 		
@@ -319,7 +333,10 @@ public class Game {
 			 */
 			for (int i = this.getHeight(); i >= 0; i--){
 				for (int j = value; j >= 0; j-- ){
-					board.area[i][j] = board.area[i][j+1];
+					if (j == 0)
+						board.area[j][j] = 0;
+					else
+						board.area[i][j+1] = board.area[i][j];
 				}
 			}
 		}
