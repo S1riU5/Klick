@@ -52,8 +52,7 @@ public class Game {
 		return low + (int)(random() * ((high - low) + 1));
 	}
 	
-	
-	
+
 	public int getColor(int x, int y){
 		/**
 		 * getColor
@@ -278,21 +277,26 @@ public class Game {
 			return (true);
 		}
 		
-		private boolean findGap(){
+		private int[] findGap(){
 			/**
 			 * findGap()
 			 * 
-			 * @returns boolean  gap found
+			 * @returns int[] 
 			 */
 			
+			int[] firstGap = {0,0};
+			
 			//TODO rebuild with returning of place of the first gap
-			// Spalten
+			// return of a list. 
+			// [x][0]  (x for rowcount) 
+			// [0][x]  (X)
 			for (int i= 0; i< this.getWidth(); i++){
 				for (int j = 0; j < this.getHeight(); j++){
 					if (this.getValAt(i, j) != 0)
 						continue;
 				}
-				return (true);
+				firstGap[0] = i;
+				return (firstGap);
 			}
 			//Zeilen
 			for (int i= 0; i< this.getHeight(); i++){
@@ -300,10 +304,11 @@ public class Game {
 					if (this.getValAt(i, j) != 0)
 						continue;
 				}
-				return (true);
+				firstGap[1] = i;
+				return (firstGap);
 			}
 			//NIX
-			return (false);
+			return (firstGap);
 		}
 		
 		private void fillGap(){
