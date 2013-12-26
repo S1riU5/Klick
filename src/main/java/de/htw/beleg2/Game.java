@@ -281,7 +281,7 @@ public class Game {
 					if (this.getValAt(i, j) == 0)
 						count += 1;
 				}
-				if (count > 0){
+				if (count >= this.getHeight()){
 					firstGap[0] = i;
 					return (firstGap);
 				}
@@ -292,7 +292,7 @@ public class Game {
 					if (this.getValAt(i, j) == 0)
 						count += 1;
 				}
-				if (count > 0){
+				if (count >= this.getHeight()){
 					firstGap[1] = i;
 					return (firstGap);
 				}
