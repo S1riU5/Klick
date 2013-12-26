@@ -193,15 +193,16 @@ public class Game {
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */	
-			// Directions have to be very implicit!
 			
+			
+			// Directions have to be very implicit!
+			// not really necessary but does also no harm
+			// and who knows what will happen ;)
 			if (	direction != 'l' &&
 					direction != 'r' &&
 					direction != 'b' &&
 					direction != 't')
 				throw new IllegalStateException("Unknown direction");
-			
-			
 			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 				&& direction == 'l')  || 
@@ -266,9 +267,8 @@ public class Game {
 			/**
 			 * findGap()
 			 * 
-			 * @returns int[] 
+			 * @returns int[2] 
 			 */
-			
 			int[] firstGap = {0,0};
 			//Spalten
 			for (int i= 0; i< this.getWidth(); i++){
@@ -292,8 +292,36 @@ public class Game {
 			return (firstGap);
 		}
 		
-		private void fillGap(){
-			
+		private void fillGaps(char direction, int value){
+			/**
+			 * 
+			 */
+			while (findGap()[0] != 0 && findGap()[1] != 0){
+				if (findGap()[0] != 0)
+					fillVertical(findGap()[0]);
+				else
+					fillVertical(findGap()[1]);
+			}
+		}
+		
+		private void fillHorizontal(int value){
+			/**
+			 * 
+			 */
+			for (int i = value; i >= 0; i--){
+					board.area[i] = board.area[i+1];
+			}
+		}
+		
+		private void fillVertical(int value){
+			/**
+			 * 
+			 */
+			for (int i = this.getHeight(); i >= 0; i--){
+				for (int j = value; j >= 0; j-- ){
+					board.area[i][j] = board.area[i][j+1];
+				}
+			}
 		}
 		
 		private void success( ){
