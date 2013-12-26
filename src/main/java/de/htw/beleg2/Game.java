@@ -28,7 +28,7 @@ public class Game {
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
 				// Testcase for filling-method 
-				if (i == 2)
+				if (j == 2)
 					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
@@ -276,28 +276,32 @@ public class Game {
 			for (int i = 0; i < this.getWidth(); i++){
 				count = 0;
 				for (int j = 0; j < this.getHeight(); j++){
-					//FIXME firstGap Algo
-					// This algo don't work this way.. see continue ... 
-					if (this.getValAt(i, j) == 0)
+					if (this.getValAt(i, j) == 0){
+						System.out.printf("getHeight()\n");
 						count += 1;
-				}
-				if (count >= this.getHeight()){
-					firstGap[0] = i;
-					return (firstGap);
+					}
+					System.out.printf("%s\t" , count);
+					if (count >= this.getHeight()-1){
+						firstGap[0] = i;
+						System.out.printf("%s\n", Arrays.toString(firstGap));
+						return (firstGap);
+					}
 				}
 			}
+			//FIXME runtime jumps into the second block because of ... I don't know
 			for (int i= 0; i< this.getHeight(); i++){
 				count = 0;
 				for (int j = 0; j < this.getWidth(); j++){
 					if (this.getValAt(i, j) == 0)
+						System.out.printf("getWidth()\n");
 						count += 1;
 				}
-				if (count >= this.getHeight()){
+				if (count >= this.getWidth()-1){
 					firstGap[1] = i;
+					System.out.printf("%s", Arrays.toString(firstGap));
 					return (firstGap);
 				}
 			}
-			//NIX
 			return (firstGap);
 		}
 		
@@ -323,12 +327,14 @@ public class Game {
 			/**
 			 * 
 			 */
+			System.out.printf("%s", value);
 			for (int i = value-1; i >= 0; i--){
 				for (int j = this.getWidth()-1; j >= 0; j-- ){
+					System.out.printf("fillHorizontal()\n");
 					if (i == 0)
 						board.area[i][j] = 0;
 					else
-						board.area[i+1][j] = board.area[i][j];
+						board.area[i-1][j] = board.area[i][j];
 				}
 			}
 		}
@@ -339,10 +345,11 @@ public class Game {
 			 */
 			for (int i = this.getHeight()-1; i >= 0; i--){
 				for (int j = value; j >= 0; j-- ){
+					System.out.printf("fillvertical()\n");
 					if (j == 0)
 						board.area[j][j] = 0;
 					else
-						board.area[i][j+1] = board.area[i][j];
+						board.area[i][j-1] = board.area[i][j];
 				}
 			}
 		}
