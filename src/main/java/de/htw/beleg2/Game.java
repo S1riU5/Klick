@@ -269,39 +269,33 @@ public class Game {
 			 * 
 			 * @returns int[2] 
 			 */
-			
-			// https://code.stypi.com/xlsikwef
 			int[] firstGap = {0,0};
-			int count;
-			for (int i = 0; i < this.getWidth(); i++){
-				count = 0;
+			boolean gapFound;
+			//Spalten
+			for (int i= 0; i< this.getWidth(); i++){
+				gapFound = false;
 				for (int j = 0; j < this.getHeight(); j++){
-					if (this.getValAt(i, j) == 0){
-						System.out.printf("getHeight()\n");
-						count += 1;
+					if (this.getValAt(i, j) != 0){	
+						continue;
 					}
-					System.out.printf("%s\t" , count);
-					if (count >= this.getHeight()-1){
-						firstGap[0] = i;
-						System.out.printf("%s\n", Arrays.toString(firstGap));
-						return (firstGap);
-					}
+					gapFound = true;
 				}
+				if (gapFound){
+					firstGap[0] = i;
+					return (firstGap);	
+				}
+				
 			}
-			//FIXME runtime jumps into the second block because of ... I don't know
+			//Zeilen
 			for (int i= 0; i< this.getHeight(); i++){
-				count = 0;
 				for (int j = 0; j < this.getWidth(); j++){
-					if (this.getValAt(i, j) == 0)
-						System.out.printf("getWidth()\n");
-						count += 1;
+					if (this.getValAt(i, j) != 0)
+						continue;
 				}
-				if (count >= this.getWidth()-1){
-					firstGap[1] = i;
-					System.out.printf("%s", Arrays.toString(firstGap));
-					return (firstGap);
-				}
+				firstGap[1] = i;
+				return (firstGap);
 			}
+			//NIX
 			return (firstGap);
 		}
 		
