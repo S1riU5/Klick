@@ -30,7 +30,7 @@ public class Game {
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
 				// Testcase for filling-method 
-				if (j == 2 && i == 2)
+				if (j == 2 && i == 4)
 					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
@@ -278,7 +278,7 @@ public class Game {
 				}
 				else{
 					count += 1;
-					if (!sameValue(0, gapCursor[0], gapCursor[1], 't')){
+					if (!sameValue(0, gapCursor[1], gapCursor[0], 't')){
 						fillVerticalGap(gapCursor);
 					}
 				}
@@ -305,8 +305,8 @@ public class Game {
 							continue;
 						}
 						// yea! A gap is there. Will give you the position rapidly!
-						cursor[0] = i;
-						cursor[1] = j;
+						cursor[1] = i;
+						cursor[0] = j;
 						return cursor;
 					}
 				}
@@ -322,7 +322,7 @@ public class Game {
 			if (sameValue(0, cursor[0]+1, cursor[1], 'b') &&
 					cursor[1] < this.getHeight()){
 				
-				cursor[0] = cursor[0]+1;
+				cursor[1] = cursor[1]+1;
 				fillVerticalGap(cursor);
 			}
 			for (int i = cursor[1]; i > 0 ; i--){
@@ -331,7 +331,7 @@ public class Game {
 					// Save value above gap at cursor-position
 					this.area[cursor[0]][cursor[1]] = valueAboveGap;
 					// Delete the value above Gap
-					this.area[cursor[0]][i] = 0;
+					this.area[i][cursor[0]] = 0;
 				}
 			}
 		}
