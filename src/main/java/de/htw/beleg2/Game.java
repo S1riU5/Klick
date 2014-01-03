@@ -72,8 +72,6 @@ public class Game {
 			return  board.getValAt(x, y);
 	}
 	
-
-	
 	public class Board{
 		/**
 		 * Boardclass
@@ -196,8 +194,7 @@ public class Game {
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */	
-			
-			
+	
 			// Directions have to be very implicit!
 			// not really necessary but does also no harm
 			// and who knows what will happen 
@@ -206,7 +203,7 @@ public class Game {
 					direction != 'b' &&
 					direction != 't')
 				throw new IllegalStateException("Unknown direction");
-			
+	
 			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
 			if (	(x == 0 					&& direction == 'l')|| 
@@ -234,8 +231,7 @@ public class Game {
 			//return true if equal
 			System.out.printf("%s=%s => %s\n"  //
 					,valueHere, valueThere, valueHere == valueThere); 
-			return (valueHere == valueThere);
-			
+			return (valueHere == valueThere);	
 		}
 
 		public int getColors() {
@@ -316,7 +312,6 @@ public class Game {
 		}
 		
 		private void fillVerticalGap(int[] cursor){
-			
 			int valueAboveGap;
 			
 			if (sameValue(0, cursor[0]+1, cursor[1], 'b') &&
