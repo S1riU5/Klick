@@ -1,11 +1,13 @@
 package de.htw.beleg2;
 import static java.lang.Math.random;
-import java.util.Arrays;
 
 
 public class Game {
 /**
+ * class Game
  * 
+ * Includes thge logical part of the game.
+ * @include board   (class)
  */
 	Board board;
 	
@@ -28,7 +30,7 @@ public class Game {
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
 				// Testcase for filling-method 
-				if (j == 2)
+				if (j == 2 && i == 4)
 					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
@@ -69,8 +71,6 @@ public class Game {
 		else
 			return  board.getValAt(x, y);
 	}
-	
-
 	
 	public class Board{
 		/**
@@ -194,20 +194,20 @@ public class Game {
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */	
-			
-			
+	
 			// Directions have to be very implicit!
 			// not really necessary but does also no harm
-			// and who knows what will happen ;)
+			// and who knows what will happen 
 			if (	direction != 'l' &&
 					direction != 'r' &&
 					direction != 'b' &&
 					direction != 't')
 				throw new IllegalStateException("Unknown direction");
+	
 			System.out.printf("%s\n" , direction); //debug
 			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 					&& direction == 'l')  || 
-					(x >= this.getWidth()-1 	&& direction == 'r') ||
+			if (	(x == 0 					&& direction == 'l')|| 
+					(x >= this.getWidth()-1 	&& direction == 'r')||
 					(y == 0						&& direction == 't')||
 					(y >= this.getHeight()-1  	&& direction == 'b'))
 				return false;
@@ -229,9 +229,9 @@ public class Game {
 				valueThere = getValAt(x-1, y);
 			}
 			//return true if equal
-			System.out.printf("%s=%s => %s\n" ,valueHere, valueThere, valueHere == valueThere); 
-			return (valueHere == valueThere);
-			
+			System.out.printf("%s=%s => %s\n"  //
+					,valueHere, valueThere, valueHere == valueThere); 
+			return (valueHere == valueThere);	
 		}
 
 		public int getColors() {
@@ -263,90 +263,75 @@ public class Game {
 			return (true);
 		}
 		
-		private int[] findGap(){
-			/**
-			 * findGap()
-			 * 
-			 * @returns int[2] 
-			 */
-			int[] firstGap = {0,0};
-			boolean gapFound;
-			//Spalten
-			for (int i= 0; i< this.getWidth(); i++){
-				gapFound = false;
-				for (int j = 0; j < this.getHeight(); j++){
-					if (this.getValAt(i, j) != 0){	
-						continue;
-					}
-					gapFound = true;
-				}
-				if (gapFound){
-					firstGap[0] = i;
-					return (firstGap);	
-				}
-				
-			}
-			//Zeilen
-			for (int i= 0; i< this.getHeight(); i++){
-				for (int j = 0; j < this.getWidth(); j++){
-					if (this.getValAt(i, j) != 0)
-						continue;
-				}
-				firstGap[1] = i;
-				return (firstGap);
-			}
-			//NIX
-			return (firstGap);
-		}
-		
 		public void fillGaps(){
-			/**
-			 * 
-			 */
-			while (true){
-				int[] gaps = findGap();
-				if (gaps[0] != 0){
-					fillHorizontal(gaps[0]);
-				}
-				else if (gaps[1] != 0){
-					fillVertical(gaps[1]);
+			boolean finished = false;
+			int count = 0;
+			do{
+				int[]gapCursor = findGap(count);
+				System.out.printf("gap found at position %s x %s.\n", gapCursor[0], gapCursor[1]);
+				if (gapCursor[0] == -1){
+					finished = true;
 				}
 				else{
-					break;
+					count += 1;
+					if (!sameValue(0, gapCursor[1], gapCursor[0], 't')){
+						fillVerticalGap(gapCursor);
+					}
+				}
+				
+			}while(!finished);
+		}
+		
+		private int[] findGap(int count){
+			/**
+			 * findGap returns the position first gap
+			 * 
+			 * @return int[] x,y position of the first gap; if it returns null -> no gap found
+			 */
+			int[] cursor = new int[2];
+			cursor[0] = -1;
+			cursor[1] = -1;
+			// The first row we don't need.
+			for(int i = 1; i < this.getWidth(); i++){
+				for (int j = 0; j < this.getHeight(); j++){
+					// If Gap and top of position is not 
+					if(this.getValAt(i, j) == 0 && !sameValue(0, i,j, 't')){
+						if (count > 0){
+							count -= 1;
+							continue;
+						}
+						// yea! A gap is there. Will give you the position rapidly!
+						cursor[1] = i;
+						cursor[0] = j;
+						return cursor;
+					}
+				}
+			}
+			//finally return the empty cursor.
+			return cursor;	
+		}
+		
+		private void fillVerticalGap(int[] cursor){
+			int valueAboveGap;
+			
+			if (sameValue(0, cursor[0]+1, cursor[1], 'b') &&
+					cursor[1] < this.getHeight()){
+				
+				cursor[1] = cursor[1]+1;
+				fillVerticalGap(cursor);
+			}
+			for (int i = cursor[1]; i > 0 ; i--){
+				valueAboveGap = getValAt(i, cursor[1]);
+				if ( valueAboveGap != 0){
+					// Save value above gap at cursor-position
+					this.area[cursor[0]][cursor[1]] = valueAboveGap;
+					// Delete the value above Gap
+					this.area[i][cursor[0]] = 0;
 				}
 			}
 		}
 		
-		private void fillHorizontal(int value){
-			/**
-			 * 
-			 */
-			System.out.printf("%s", value);
-			for (int i = value-1; i >= 0; i--){
-				for (int j = this.getWidth()-1; j >= 0; j-- ){
-					System.out.printf("fillHorizontal()\n");
-					if (i == 0)
-						board.area[i][j] = 0;
-					else
-						board.area[i-1][j] = board.area[i][j];
-				}
-			}
-		}
 		
-		private void fillVertical(int value){
-			/**
-			 * 
-			 */
-			for (int i = this.getHeight()-1; i >= 0; i--){
-				for (int j = value; j >= 0; j-- ){
-					System.out.printf("fillvertical()\n");
-					if (j == 0)
-						board.area[j][j] = 0;
-					else
-						board.area[i][j-1] = board.area[i][j];
-				}
-			}
-		}
 		
 		private void success( ){
 			System.exit(0);
