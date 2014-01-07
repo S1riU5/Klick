@@ -321,7 +321,7 @@ public class Game {
 				fillVerticalGap(cursor);
 			}
 			for (int i = cursor[1]; i > 0 ; i--){
-				valueAboveGap = getValAt(i, cursor[1]);
+				valueAboveGap = getValAt(i, cursor[0]);
 				if ( valueAboveGap != 0){
 					// Save value above gap at cursor-position
 					this.area[cursor[0]][cursor[1]] = valueAboveGap;
