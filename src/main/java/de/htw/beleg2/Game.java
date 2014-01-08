@@ -286,12 +286,15 @@ public class Game {
 			/**
 			 * findGap returns the position first gap
 			 * 
-			 * @return int[] x,y position of the first gap; if it returns null -> no gap found
+			 * @return int[] x,y position of the first gap; 
+			 * if it returns -1 -> no gap found
 			 */
 			int[] cursor = new int[2];
+			// -1 errorcode
 			cursor[0] = -1;
 			cursor[1] = -1;
 			// The first row we don't need.
+			// If there are gaps they won't be filled
 			for(int i = 1; i < this.getWidth(); i++){
 				for (int j = 0; j < this.getHeight(); j++){
 					// If Gap and top of position is not 
@@ -301,34 +304,28 @@ public class Game {
 							continue;
 						}
 						// yea! A gap is there. Will give you the position rapidly!
-						cursor[1] = i;
-						cursor[0] = j;
+						cursor[0] = i;
+						cursor[1] = j;
 						return cursor;
 					}
 				}
 			}
-			//finally return the empty cursor.
+			//finally return the empty (-1) cursor.
 			return cursor;	
 		}
 		
 		private void fillVerticalGap(int[] cursor){
-			int valueAboveGap;
+			int x = cursor[0];
+			int y = cursor[1];			
 			
-			if (sameValue(0, cursor[0]+1, cursor[1], 'b') &&
-					cursor[1] < this.getHeight()){
-				
-				cursor[1] = cursor[1]+1;
-				fillVerticalGap(cursor);
+			while (this.sameValue(0, x, y, 'b') && x < this.getHeight() ){
+				x += 1;
 			}
-			for (int i = cursor[1]; i > 0 ; i--){
-				valueAboveGap = getValAt(i, cursor[0]);
-				if ( valueAboveGap != 0){
-					// Save value above gap at cursor-position
-					this.area[cursor[0]][cursor[1]] = valueAboveGap;
-					// Delete the value above Gap
-					this.area[i][cursor[0]] = 0;
-				}
+			for (int i = x; i > 0; i--){
+				int valTop = getValAt(i-1, y);
+				this.area[i][y] = valTop;
 			}
+			this.area[0][y] = 0;
 		}
 		
 		
