@@ -30,7 +30,7 @@ public class Game {
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
 				// Testcase for filling-method 
-				if (j == 2 )
+				if (j == 2 && i == 4 || j == 3 && i == 4 )
 					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
@@ -276,6 +276,7 @@ public class Game {
 					count += 1;
 					if (!sameValue(0, gapCursor[1], gapCursor[0], 't')){
 						fillGap(gapCursor);
+						count = 0;
 					}
 				}
 				
@@ -329,7 +330,7 @@ public class Game {
 				x += 1;
 			}
 			for (int i = x; i > 0; i--){
-				int valTop = getValAt(i-1, y);
+				int valTop = getValAt(y, i-1);
 				this.area[i][y] = valTop;
 			}
 			this.area[0][y] = 0;
