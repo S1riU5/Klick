@@ -30,7 +30,7 @@ public class Game {
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
 				// Testcase for filling-method 
-				if (j == 2 && i == 4)
+				if (j == 2 )
 					board.area[i][j] = 0;
 				// Integer randomized value 
 				// from 1 to the value of colors
@@ -275,11 +275,18 @@ public class Game {
 				else{
 					count += 1;
 					if (!sameValue(0, gapCursor[1], gapCursor[0], 't')){
-						fillVerticalGap(gapCursor);
+						fillGap(gapCursor);
 					}
 				}
 				
 			}while(!finished);
+			
+			for (int i = 1; i < this.getWidth(); i++){
+				if (this.getValAt(this.getHeight()-1, i) == 0 && this.getValAt(this.getHeight()-1, i-1) != 0) {
+					System.out.printf("fillVerticalGap: %s\n", i);
+					fillVerticalGap(i);
+				}
+			}
 		}
 		
 		private int[] findGap(int count){
@@ -314,7 +321,7 @@ public class Game {
 			return cursor;	
 		}
 		
-		private void fillVerticalGap(int[] cursor){
+		private void fillGap(int[] cursor){
 			int x = cursor[0];
 			int y = cursor[1];			
 			
@@ -328,7 +335,14 @@ public class Game {
 			this.area[0][y] = 0;
 		}
 		
-		
+		private void fillVerticalGap(int x){
+			for (int i = 0; i<this.getHeight(); i++){
+				for (int j = x; j > 0; j--){
+					this.area[i][j] = this.area[i][j-1];
+				}
+				this.area[i][0] = 0;
+			}
+		}
 		
 		private void success( ){
 			System.exit(0);
