@@ -18,8 +18,7 @@ public class cliUI {
 		 */
 		// Init a Game-Object
 		// TODO Method to set easy Playground
-		// TODO Testobject for testing Playgrounds
-		game = new Game(16, 16, 5); // Size: 6x6; Colors: 1,2,3
+		game = new Game(4, 5, 2); //(height, width, colors)
 
 		// Start the Gameloop
 		// TODO Exception needed? If yes, which?
@@ -31,11 +30,10 @@ public class cliUI {
 		 * 
 		 */
 		while (true) {
-			// Output
+			int[] deleteAt;
 			printPlayground();
-			// wait on user input
-			//deleteElement(5,3);
-			fetchUserInput();
+			deleteAt = fetchUserInput();
+			deleteElement(deleteAt[0], deleteAt[1]);
 			game.board.fillGaps();
 
 		}
@@ -45,8 +43,8 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		for (int i = 0; i < game.board.getWidth(); i++) {
-			for (int j = 0; j < game.board.getHeight(); j++) {
+		for (int i = 0; i < game.board.getHeight(); i++) {
+			for (int j = 0; j < game.board.getWidth(); j++) {
 				// Print the square
 				printPinch(i, j);
 			}
@@ -65,15 +63,22 @@ public class cliUI {
 		game.board.deleteEqualNeighbors(x, y);
 	}
 
-	private void fetchUserInput() {
+	private int[] fetchUserInput() {
 		/**
 		 * 
 		 */
+		int x = -1; 
+		int y = -1;
 		try {
-			readInt(">>> ");
+			x = readInt(">>> ");
+			y = readInt(">>> ");
 		} catch (IOException e) {
 			errOutput(e.getMessage());
 		}
+		int[] values = {x,y};
+		
+		return values;
+		
 	}
 
 	private int readInt(String outPt) throws IOException {

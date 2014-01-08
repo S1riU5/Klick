@@ -18,24 +18,23 @@ public class Game {
 		 * Game-engine for the logical stuff of this game.
 		 * 
 		 * @param int height	Height of the board
-		 * @param int width		WIdth of the board
+		 * @param int width		Width of the board
 		 * @param int cols		Amount of the Colors 
 		 */
-		board = new Board(width, cols);
-		// Never build an empty board!
-		fillBoard(cols);
+		board = new Board(height, width, cols);
 	}
 	
 	private  void fillBoard(int colors){
+		/**
+		 * filloard
+		 * 
+		 * Fills the board with randomized values
+		 * 
+		 * @param int colors: Amount of colors
+		 */
 		for (int i = 0; i < board.getWidth(); i++){
 			for (int j = 0; j < board.getHeight(); j++){
-				// Testcase for filling-method 
-				if (j == 2 && i == 4 || j == 3 && i == 4 )
-					board.area[i][j] = 0;
-				// Integer randomized value 
-				// from 1 to the value of colors
-				else
-					board.area[i][j] = randInt(1, colors);
+				board.area[i][j] = randInt(1, colors);
 			}
 		}	
 	}
@@ -54,7 +53,6 @@ public class Game {
 		return low + (int)(random() * ((high - low) + 1));
 	}
 	
-
 	public int getColor(int x, int y){
 		/**
 		 * getColor
@@ -72,37 +70,36 @@ public class Game {
 			return  board.getValAt(x, y);
 	}
 	
+	private void success( ){
+		System.exit(0);
+	}
+	
 	public class Board{
 		/**
 		 * Boardclass
 		 */
 		private int [][] area;
-		private int colors; // 0 = empty 
 		
-		public Board(int width, int height, int cols){
-			area = new int[width][height];
-			initField(cols);
-		}
-		
-		public Board(int size, int cols) {
-			area = new int[size][size];
-			initField(cols);
-		}
-		
-		public int getWidth(){
-			return area.length;
-		}
-		
-		public int getHeight(){
-			return area[0].length;
-		}
-		
-		private void initField(int cols){
-			/*
-			 * initialize the values of the fields
+		 public Board(int height, int width, int cols){
+			/**
+			 * Board __init__
+			 * 
+			 * @param height 
+			 * @param width
+			 * @param cols
 			 */
-			setColors(cols);
-			for (int i = 0; i<getWidth(); i++){
+			System.out.printf("height: %s\t width: %s\tColors: %s\n", height, width, cols); // debug
+			this.area = new int[height][width];
+			//System.out.printf("%s\n", this.area[0].length); //debug
+			initField(cols);
+		}
+
+
+		private void initField(int cols){
+			/**
+			 * initialize the values of the spaces
+			 */
+			for (int i = 0; i<getHeight(); i++){
 				for(int j = 0; j<getWidth(); j++ ){
 					area[i][j] = randInt(1, cols);
 				}
@@ -112,47 +109,71 @@ public class Game {
 		public int getValAt(int x, int y){
 			//FIXEDME IndexOutOfBoundsException
 			//TODO May the problem don't occur anymore, but keep it in sight
-			// Maybe there is a Problem in parsing the chars t, , l, r
+			// Maybe there is a Problem in parsing the chars t,b , l, r
 			// to the actual direction..
 			// Switched them yet but nothing changed.
 			// but its the call from:
 			// >> sameValue() <<
+			
 			//System.out.printf("x:\t%s\ty:\t%s", x, y); //debug
 			return area[x][y];
 		}
 		
 		public void deleteEqualNeighbors(int x, int y){
-			
-			//exit conditions first!
+			/*
+			 * deleteEqualNeighbors
+			 * 
+			 * 
+			 */
+			// Exit conditions first!
 			if (valueOfEqualNeighbors(x,y) == 0){
-				//System.out.printf("No Equal neighbors!\n"); //debug
 				deleteElement(x,y);
 				return;
 			}
+			// Speed Up! 
+			//0 isn't part of the game, so you haven't to handle it.
 			if (getValAt(x,y) == 0)
 				return;
-			//TODO Recursive deleting of equal neighbors
+			/*
+			 * Begin of the Algorithm.
+			 * 
+			 * 
+			 */
+			
+			boolean left = false, right = false, top = false, bottom = false ;
 			int currentValue = getValAt(x,y);
-			deleteElement(x,y);
-			// Delete here first 
-			// if not philosophers don't eat the pasta.
-			//TODO testing & debugging	
+			
 			if (sameValue(currentValue, x,y,'t')){
-				System.out.printf("Mooving cursor to: top (%sx%s)\n", x, y-1);
-				deleteEqualNeighbors(x  , y-1);
-			}
-			if (sameValue(currentValue, x,y,'r')){
-				System.out.printf("Mooving cursor to: right(%sx%s)\n", x+1,y);
-				deleteEqualNeighbors(x+1 , y);
+				top = true;
 			}
 			if (sameValue(currentValue, x,y,'b')){
-				System.out.printf("Mooving cursor to: bottom(%sx%s)\n" ,x, y+1);
-				deleteEqualNeighbors(x  , y+1);
-				}
+				bottom = true;
+			}
 			if (sameValue(currentValue, x,y,'l')){
-				System.out.printf("Mooving cursor to: left(%sx%s)\n", x-1,y);
-				deleteEqualNeighbors(x-1, y);
-				}
+				left = true;
+			}
+			if (sameValue(currentValue, x,y,'r')){
+				right = true;
+			}
+			/*
+			 * 
+			 */
+			deleteElement(x,y);	
+			/*
+			 * 
+			 */
+			if (top){
+				deleteEqualNeighbors(x-1  , y);
+			}
+			if (right){
+				deleteEqualNeighbors(x , y+1);
+			}
+			if (bottom){
+				deleteEqualNeighbors(x+1  , y);
+			}
+			if (left){
+				deleteEqualNeighbors(x, y-1);
+			}
 		}
 
 		public int valueOfEqualNeighbors(int x, int y){
@@ -164,14 +185,14 @@ public class Game {
 			 * @param int y		row
 			 * @return int	number of equal Neighbors (possible: 0 - 4)
 			 */			
-			// TODO Zerospaces shouldn't handled at all
 			// Where is the big red button which will turn this off? 
 			// Neighbors of deleted Areas may be not worth looking at
-			if (getValAt(x,y) == 0)
+			if (getValAt(x,y) == 0){
 				return 0;
+			}
 			int value = 0;
-			char[] nbrs = {'t', 'r', 'b', 'l'};
 			
+			char[] nbrs = {'t', 'r', 'b', 'l'};
 			for (int i = 0; i < nbrs.length; i++){
 				if (sameValue(getValAt(x,y),x,y, nbrs[i]))
 					value += 1;
@@ -195,56 +216,38 @@ public class Game {
 			 * if direction is not valid
 			 */	
 	
-			// Directions have to be very implicit!
-			// not really necessary but does also no harm
-			// and who knows what will happen 
-			if (	direction != 'l' &&
-					direction != 'r' &&
-					direction != 'b' &&
-					direction != 't')
-				throw new IllegalStateException("Unknown direction");
-	
-			System.out.printf("%s\n" , direction); //debug
-			// If the earth a disc, be aware of the abyss!
-			if (	(x == 0 					&& direction == 'l')|| 
-					(x >= this.getWidth()-1 	&& direction == 'r')||
-					(y == 0						&& direction == 't')||
-					(y >= this.getHeight()-1  	&& direction == 'b'))
-				return false;
-			//System.out.printf("not at border\n");
-			int valueThere;
 			
+			
+			// If the earth a disc, be aware of the abyss!
+			if (	(y == 0 					&& direction == 'l')|| 
+					(y >= this.getWidth()-1 	&& direction == 'r')||
+					(x == 0						&& direction == 't')||
+					(x >= this.getHeight()-1  	&& direction == 'b'))
+				return false;
+			//System.out.printf("not at border\t"); //debug
+			int valueThere;
+			//System.out.printf("x: %s\t direction: %s\n", x, direction);
 			switch (direction){
-			//Are the relative coordinates right this way??
-			case 'b':
-				valueThere = getValAt(x  , y+1);
+			case 'b':		
+				//System.out.printf("/t/t%s", this.getHeight());//debug
+				valueThere = getValAt(x+1  , y);
 				break;
 			case 'r':
-				valueThere = getValAt(x+1, y);
+				valueThere = getValAt(x, y+1);
 				break;
 			case 't':
-				valueThere = getValAt(x  , y-1);
+				valueThere = getValAt(x-1  , y);
 				break;
 			default:
-				valueThere = getValAt(x-1, y);
+				valueThere = getValAt(x, y-1);
 			}
 			//return true if equal
-			System.out.printf("%s=%s => %s\n"  //
-					,valueHere, valueThere, valueHere == valueThere); 
+			//System.out.printf("\t%s=%s => %s\n",valueHere, valueThere, valueHere == valueThere); //debug
 			return (valueHere == valueThere);	
 		}
 
-		public int getColors() {
-			return colors;
-		}
 
-		public void setColors(int colors) {
-			this.colors = colors;
-		}
-		
 		public void deleteElement(int x, int y){
-			System.out.printf("deleting Element: %s; %s with Value: %s\n", 
-					x,y,getValAt(x,y));
 			this.area[x][y] = 0;
 		}
 		
@@ -268,23 +271,22 @@ public class Game {
 			int count = 0;
 			do{
 				int[]gapCursor = findGap(count);
-				System.out.printf("gap found at position %s x %s.\n", gapCursor[0], gapCursor[1]);
-				if (gapCursor[0] == -1){
+				if (gapCursor[0] == -1 ){
 					finished = true;
 				}
 				else{
 					count += 1;
 					if (!sameValue(0, gapCursor[1], gapCursor[0], 't')){
 						fillGap(gapCursor);
-						count = 0;
+						//count = 0;
 					}
 				}
 				
 			}while(!finished);
 			
 			for (int i = 1; i < this.getWidth(); i++){
-				if (this.getValAt(this.getHeight()-1, i) == 0 && this.getValAt(this.getHeight()-1, i-1) != 0) {
-					System.out.printf("fillVerticalGap: %s\n", i);
+				if (this.getValAt(this.getHeight()-1, i) 		== 0 && 
+					this.getValAt(this.getHeight()-1, i-1) 	!= 0) {
 					fillVerticalGap(i);
 				}
 			}
@@ -303,8 +305,9 @@ public class Game {
 			cursor[1] = -1;
 			// The first row we don't need.
 			// If there are gaps they won't be filled
-			for(int i = 1; i < this.getWidth(); i++){
-				for (int j = 0; j < this.getHeight(); j++){
+			for(int i = 1; i < this.getHeight(); i++){
+				for (int j = 0; j < this.getWidth(); j++){
+					//System.out.printf("findGap");
 					// If Gap and top of position is not 
 					if(this.getValAt(i, j) == 0 && !sameValue(0, i,j, 't')){
 						if (count > 0){
@@ -330,8 +333,7 @@ public class Game {
 				x += 1;
 			}
 			for (int i = x; i > 0; i--){
-				int valTop = getValAt(y, i-1);
-				this.area[i][y] = valTop;
+				this.area[i][y] = getValAt(i-1, y);
 			}
 			this.area[0][y] = 0;
 		}
@@ -345,9 +347,16 @@ public class Game {
 			}
 		}
 		
-		private void success( ){
-			System.exit(0);
+		public int getHeight(){
+			return area.length;
 		}
+		
+		public int getWidth(){
+			return area[0].length;
+		}
+		
+		
+
 	}
 	
 	
