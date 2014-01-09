@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+
+import de.htw.beleg2.Game.Board;
 
 
 
@@ -19,6 +22,9 @@ public class cliGUI extends JFrame {
 	 * Mainloop for the GUI
 	 */
 	Game game = new Game(4, 4, 2);
+	int Hight = 16;
+	int Width = 16;
+	int AnzColor = 2;
 
 	public void runGUI() {
 		runloop();
@@ -29,16 +35,69 @@ public class cliGUI extends JFrame {
 	 * runloop method
 	 */
 	public void runloop() {
-		window();
+		menu();
 	}
 
 	/**
 	 * Window method combines the menu and board
 	 */
 
-	public void window() {
-
-
+	public void HightWidthselection() {
+		//define window
+		JFrame hws =new JFrame("Auswahl Feldgröße");
+		
+		//define Closeoperation
+		hws.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//set Layout of the windwo
+		hws.setLayout(new FlowLayout());
+		
+		//creat mainpart
+		JPanel selection = new JPanel();
+		
+		//set Panel Layout
+		selection.setLayout(new BorderLayout());
+		
+		//create internal Panal
+		JPanel internSel = new JPanel();
+		
+		//set internal Layout
+		internSel.setLayout(new BoxLayout(internSel, BoxLayout.X_AXIS));
+		
+		//draw cover for Panel and set Border
+		internSel.setBorder(BorderFactory.createTitledBorder("Selection"));
+		
+		//create textfields
+		JTextField highttext = new JTextField();
+		JTextField widthtext = new JTextField();
+		
+		//create JLables for internal Panel
+		JLabel hight = new JLabel("Höhen");
+		JLabel width = new JLabel("Breite");
+		
+		// set size of textfield
+		highttext.setPreferredSize(new Dimension(100,20));
+		widthtext.setPreferredSize(new Dimension(100,20));
+		
+		// add Lables to internal Panel and add Textfield to internal Panal
+		internSel.add(hight);
+		internSel.add(highttext);
+		internSel.add(width);
+		internSel.add(widthtext);
+	
+		//insert internal panale to covering panel
+		selection.add(internSel,BorderLayout.CENTER);
+		
+		//add panels to frame
+		hws.add(selection);
+		
+		
+		//set size of windwo
+		hws.setSize(410,100);
+		
+		//set windwo visible
+		hws.setVisible(true);
+		
 	}
 	
 		public void menu (){
@@ -71,6 +130,52 @@ public class cliGUI extends JFrame {
 			frameMenu.add(Board,Component.CENTER_ALIGNMENT);
 			frameMenu.add(Play,Component.CENTER_ALIGNMENT);
 			frameMenu.add(Close,Component.CENTER_ALIGNMENT);
+			
+			// set window
+			
+			frameMenu.setSize(250,250);
+			
+			//Display window
+			frameMenu.setVisible(true);
+			
+			
+			//add Action Listener
+			
+			
+			
+		
+	}
+		
+		public void ColorSelection (){
+			// Definiere Fenster
+			final JFrame frameMenu = new JFrame("Farbenanzahl");
+			
+			// schliße fenster
+			frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			
+			//set Layout window
+			frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(),BoxLayout.Y_AXIS));
+			
+			//Set menu Buttons
+			JButton tow = new JButton("Farben 2");
+			JButton three = new JButton("Farben 3");
+			JButton four = new JButton("Farben 4");
+			JButton five= new JButton("Farben 5");
+			
+			
+			// set buttonsize
+			tow.setMaximumSize(new Dimension(250,300));
+			three.setMaximumSize(new Dimension(250,300));
+			four.setMaximumSize(new Dimension(250,300));
+			five.setMaximumSize(new Dimension(250,300));
+			
+			//add Buttons
+			
+			frameMenu.add(tow,Component.CENTER_ALIGNMENT);
+			frameMenu.add(three,Component.CENTER_ALIGNMENT);
+			frameMenu.add(four,Component.CENTER_ALIGNMENT);
+			frameMenu.add(five,Component.CENTER_ALIGNMENT);
 			
 			// set window
 			
