@@ -26,9 +26,9 @@ public class App {
 
 
 	public static void main(String[] args) {
-		cliUI ui = new cliUI();
-		//cliGUI GUI = new cliGUI();
-		//GUI.window();
+		//cliUI ui = new cliUI();
+		cliGUI GUI = new cliGUI();
+		GUI.ColorSelection();
 	}
 }
 
