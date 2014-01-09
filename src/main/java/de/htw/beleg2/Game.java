@@ -8,10 +8,13 @@ public class Game {
 /**
  * class Game
  * 
+ * @author Sebastian Schmid (s0543196)
+ * 
  * Includes the logical part of the game.
  * @include board   (class)
  */
 	Board board;
+	
 	private int points = 0;
 	private int[][] past;
 	int latestPoints;
@@ -145,7 +148,10 @@ public class Game {
 		int startSlotValue = getValueOfFreeSlots();
 		if (board.valueOfEqualNeighbors(x, y) > 0 && getValue(x,y) != 0)
 			board.deleteEqualNeighbors(x, y);
-		pts = calcPoints(getFreeSpaces() - startValue) + calcSlotBonus(getValueOfFreeSlots()- startSlotValue);
+		int p1 = calcPoints(getFreeSpaces() - startValue);
+		if (p1 < 0)
+			p1 = 0;
+		pts = calcPoints(p1 + calcSlotBonus(getValueOfFreeSlots()- startSlotValue));
 		points += pts; 
 		latestPoints = pts;
 	}
@@ -179,25 +185,15 @@ public class Game {
 		return board.getValAt(x, y);
 	}
 	
-	private void success( ){
-		/**
-		 * Winners will become this
-		 */
-		System.exit(0);
-	}
-	
 	public void cleanBoard(){
 		board.fillGaps();
 	}
 	
-	private void deadlock(){
-		/**
-		 * 
-		 * just for the loosers
-		 */
-		System.exit(0);
+	public void saveTopTen(int val){
+		
 	}
-	
+
+
 	private class Board{
 		/**
 		 * Boardclass
@@ -298,8 +294,6 @@ public class Game {
 			 * @param int y		row
 			 * @return int	number of equal Neighbors (possible: 0 - 4)
 			 */			
-			// Where is the big red button which will turn this off? 
-			// Neighbors of deleted Areas may be not worth looking at
 			if (getValAt(x,y) == 0){
 				return 0;
 			}

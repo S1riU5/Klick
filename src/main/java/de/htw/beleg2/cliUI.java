@@ -8,7 +8,7 @@ import static java.lang.System.out; //output
 
 public class cliUI {
 	/**
-	 * 
+	 * @author Sebastian Schmid (s0543196)
 	 */
 	Game game;
 
@@ -20,17 +20,30 @@ public class cliUI {
 	}
 	
 	private void masterloop(){
-		int h,w,c, p;
-		System.out.printf("Daten eingeben:\n\n");
-		System.out.printf("\t Höhe des Spielfelds:\n");
-		h = inputInt(10,40);
-		System.out.printf("\t Breite des Spielfelds:\n");
-		w = inputInt(10,40);
-		System.out.printf("\tAnzahl der Farben:\n");
-		c = inputInt(2,5);
+		TopTen tt = new TopTen();
 		
-		game = new Game(h,w,c);
-		p = runloop();
+		while(true){
+			int h,w,c, p;
+			System.out.printf("Daten eingeben:\n\n");
+			System.out.printf("\t Höhe des Spielfelds:\n");
+			h = inputInt(10,40);
+			System.out.printf("\t Breite des Spielfelds:\n");
+			w = inputInt(10,40);
+			System.out.printf("\tAnzahl der Farben:\n");
+			c = inputInt(2,5);
+			
+			game = new Game(h,w,c);
+			tt.saveHighscore(runloop() );
+			tt.printHighscore();
+			try {
+				if (readString("Nochmal? [y]n\n>>> ").equals("n")){
+					bye();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}	
 	
 	private Integer inputInt(int from , int to){
@@ -212,6 +225,10 @@ public class cliUI {
 		 * Prints a error message on cli.
 		 */
 		System.out.printf("Error:\t%s!\n", text);
+	}
+	
+	private void bye(){
+		System.exit(0);
 	}
 
 }

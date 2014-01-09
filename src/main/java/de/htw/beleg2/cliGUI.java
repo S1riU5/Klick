@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-
-import de.htw.beleg2.Game.Board;
+//sebsch use the Gameclass!
+import de.htw.beleg2.Game;
 
 
 
@@ -44,7 +44,7 @@ public class cliGUI extends JFrame {
 
 	public void HightWidthselection() {
 		//define window
-		JFrame hws =new JFrame("Auswahl Feldgröße");
+		JFrame hws =new JFrame("Auswahl Feldgrï¿½ï¿½e");
 		
 		//define Closeoperation
 		hws.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,7 +72,7 @@ public class cliGUI extends JFrame {
 		JTextField widthtext = new JTextField();
 		
 		//create JLables for internal Panel
-		JLabel hight = new JLabel("Höhen");
+		JLabel hight = new JLabel("Hï¿½hen");
 		JLabel width = new JLabel("Breite");
 		
 		// set size of textfield
@@ -104,7 +104,7 @@ public class cliGUI extends JFrame {
 			// Definiere Fenster
 			final JFrame frameMenu = new JFrame("Klickibunti Menu");
 			
-			// schliße fenster
+			// schliï¿½e fenster
 			frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			
@@ -115,7 +115,7 @@ public class cliGUI extends JFrame {
 			JButton Colors = new JButton("Farben");
 			JButton Board = new JButton("Spielfeld");
 			JButton Play = new JButton("Spiele");
-			JButton Close = new JButton("Schließen");
+			JButton Close = new JButton("Schlieï¿½en");
 			
 			
 			// set buttonsize
@@ -150,7 +150,7 @@ public class cliGUI extends JFrame {
 			// Definiere Fenster
 			final JFrame frameMenu = new JFrame("Farbenanzahl");
 			
-			// schliße fenster
+			// schliï¿½e fenster
 			frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			
@@ -203,8 +203,8 @@ public class cliGUI extends JFrame {
 	 */
 
 	public void ButtonBoard() {
-		int hight = game.board.getHeight();
-		int width = game.board.getWidth();
+		int hight = game.getBoardHeight();
+		int width = game.getBoardWidth();
 		
 		JFrame BoardFrame = new JFrame("Klickibunti");
 
@@ -218,10 +218,10 @@ public class cliGUI extends JFrame {
 
 			for (int j = 0; j < width; j++) {
 				// Farben: Blau(24,0,243);Rot(255,17,0);
-				// gelb(255,249.43);Lila(247,16,217);grün(7,249,55);
+				// gelb(255,249.43);Lila(247,16,217);grï¿½n(7,249,55);
 				// Schwarz(0,0,0)
 				BoardFrame.add(board[i][j] = new JButton("     "));
-				switch (game.board.getValAt(i, j)) {
+				switch (game.getValue(i, j)) {
 				case 0:
 					board[i][j].setBackground(new Color(0, 0, 0));
 					break;
