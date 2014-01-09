@@ -40,45 +40,50 @@ public class cliGUI extends JFrame {
 
 
 	}
-	public void menu (){
-		// Definiere Fenster
-		final JFrame frame = new JFrame("Klickibunti");
-		// schliße fenster
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// create MainMenu
-		JMenuBar Datei = new JMenuBar();
-
-		// add to Frame
-		frame.setJMenuBar(Datei);
-
-		// create Submenu
-		JMenu game = new JMenu("Spiel");
-		JMenu ChoseCol = new JMenu("Farben wählen");
-		JMenu board = new JMenu("Feld..");
-		// Link submenu to Menu
-
-		Datei.add(game);
-		game.add(ChoseCol);
-		game.add(board);
-		// subsubmenu
-
-		JMenuItem Red = new JMenuItem("Rot");
-		JMenuItem Yellow = new JMenuItem("Gelb");
-		JMenuItem blue = new JMenuItem("BLau");
-		JMenuItem purpel = new JMenuItem("Lila");
-		JMenuItem green = new JMenuItem("Grün");
-		// Link subsub to sub
-		ChoseCol.add(Red);
-		ChoseCol.add(Yellow);
-		ChoseCol.add(blue);
-		ChoseCol.add(purpel);
-		ChoseCol.add(green);
-
-		// einsetzen der größer aus anderem objekt
-		frame.setSize(410, 200);
-
-		frame.setVisible(true);
+	
+		public void menu (){
+			// Definiere Fenster
+			final JFrame frameMenu = new JFrame("Klickibunti Menu");
+			
+			// schliße fenster
+			frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			
+			//set Layout window
+			frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(),BoxLayout.Y_AXIS));
+			
+			//Set menu Buttons
+			JButton Colors = new JButton("Farben");
+			JButton Board = new JButton("Spielfeld");
+			JButton Play = new JButton("Spiele");
+			JButton Close = new JButton("Schließen");
+			
+			
+			// set buttonsize
+			Colors.setMaximumSize(new Dimension(250,300));
+			Board.setMaximumSize(new Dimension(250,300));
+			Play.setMaximumSize(new Dimension(250,300));
+			Close.setMaximumSize(new Dimension(250,300));
+			
+			//add Buttons
+			
+			frameMenu.add(Colors,Component.CENTER_ALIGNMENT);
+			frameMenu.add(Board,Component.CENTER_ALIGNMENT);
+			frameMenu.add(Play,Component.CENTER_ALIGNMENT);
+			frameMenu.add(Close,Component.CENTER_ALIGNMENT);
+			
+			// set window
+			
+			frameMenu.setSize(250,250);
+			
+			//Display window
+			frameMenu.setVisible(true);
+			
+			
+			//add Action Listener
+			
+			
+			
 		
 	}
 	
