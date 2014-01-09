@@ -18,7 +18,7 @@ public class cliUI {
 		 */
 		// Init a Game-Object
 		// TODO Method to set easy Playground
-		game = new Game(4, 5, 2); //(height, width, colors)
+		game = new Game(10, 10, 3); //(height, width, colors)
 
 		// Start the Gameloop
 		// TODO Exception needed? If yes, which?
@@ -34,8 +34,7 @@ public class cliUI {
 			printPlayground();
 			deleteAt = fetchUserInput();
 			deleteElement(deleteAt[0], deleteAt[1]);
-			game.board.fillGaps();
-
+			game.cleanBoard();
 		}
 	}
 
@@ -43,8 +42,14 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		for (int i = 0; i < game.board.getHeight(); i++) {
-			for (int j = 0; j < game.board.getWidth(); j++) {
+		System.out.printf("\n \n");
+		System.out.printf("\t");
+		for (int i = 0; i < game.getBoardWidth(); i++)
+			System.out.printf("%2d ", i);
+		System.out.printf("\n \n");
+		for (int i = 0; i < game.getBoardHeight(); i++) {
+			System.out.printf("-%s-\t", i);
+			for (int j = 0; j < game.getBoardWidth(); j++) {
 				// Print the square
 				printPinch(i, j);
 			}
@@ -55,12 +60,13 @@ public class cliUI {
 	}
 
 	private void printPinch(int x, int y) {
-		System.out.printf("[%s]", game.board.getValAt(x, y));
+		String[] syms = {" ", "A", "B", "C", "D", "E" };
+		System.out.printf("[%s]", syms[game.getValue(x, y)]);
 
 	}
 	
 	private void deleteElement(int x,int y){
-		game.board.deleteEqualNeighbors(x, y);
+		game.delete(x, y);
 	}
 
 	private int[] fetchUserInput() {
@@ -70,8 +76,8 @@ public class cliUI {
 		int x = -1; 
 		int y = -1;
 		try {
-			x = readInt(">>> ");
-			y = readInt(">>> ");
+			x = readInt("Vertical- - >>> ");
+			y = readInt("Horizontal- >>> ");
 		} catch (IOException e) {
 			errOutput(e.getMessage());
 		}

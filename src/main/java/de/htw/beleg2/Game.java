@@ -24,26 +24,12 @@ public class Game {
 		board = new Board(height, width, cols);
 	}
 	
-	private  void fillBoard(int colors){
-		/**
-		 * filloard
-		 * 
-		 * Fills the board with randomized values
-		 * 
-		 * @param int colors: Amount of colors
-		 */
-		for (int i = 0; i < board.getWidth(); i++){
-			for (int j = 0; j < board.getHeight(); j++){
-				board.area[i][j] = randInt(1, colors);
-			}
-		}	
-	}
 	
 	private int randInt( int low, int high ){
 		/**
 		 * randInt
 		 * 
-		 * Simple Method to get randomized Integer inside 
+		 * Simple Dice-Method to get randomized Integer inside 
 		 * freely selectable range.
 		 * 
 		 * @param int low	lowest possible Value
@@ -70,11 +56,48 @@ public class Game {
 			return  board.getValAt(x, y);
 	}
 	
+	public void delete(int x, int y){
+		if (board.valueOfEqualNeighbors(x, y) > 0)
+			board.deleteElement(x, y);
+	}
+	
+	public int getBoardWidth(){
+		return board.getWidth();
+	}
+	
+	public int getBoardHeight(){
+		return board.getHeight();
+	}
+	
+	
+	public int[][] getBoard(){
+		return board.area;
+	}
+	
+	public int getValue(int x, int y){
+		return board.getValAt(x, y);
+	}
+	
 	private void success( ){
+		/**
+		 * Winners will become this
+		 */
 		System.exit(0);
 	}
 	
-	public class Board{
+	public void cleanBoard(){
+		board.fillGaps();
+	}
+	
+	private void deadlock(){
+		/**
+		 * 
+		 * just for the loosers
+		 */
+		System.exit(0);
+	}
+	
+	private class Board{
 		/**
 		 * Boardclass
 		 */
@@ -156,11 +179,11 @@ public class Game {
 				right = true;
 			}
 			/*
-			 * 
+			 *  *  *  *  *  *  *  *   >
 			 */
-			deleteElement(x,y);	
+			deleteElement(x,y);// *   >  >
 			/*
-			 * 
+			 *  *  *  *  *  *  *  *   >
 			 */
 			if (top){
 				deleteEqualNeighbors(x-1  , y);
@@ -290,6 +313,10 @@ public class Game {
 					fillVerticalGap(i);
 				}
 			}
+			// cleaning up with the Mega Maid
+			findNestedBubbles();
+			findNestedSlots();
+			
 		}
 		
 		private int[] findGap(int count){
@@ -332,10 +359,7 @@ public class Game {
 			while (this.sameValue(0, x, y, 'b') && x < this.getHeight() ){
 				x += 1;
 			}
-			for (int i = x; i > 0; i--){
-				this.area[i][y] = getValAt(i-1, y);
-			}
-			this.area[0][y] = 0;
+			bubbleUp(x,y);
 		}
 		
 		private void fillVerticalGap(int x){
@@ -345,6 +369,33 @@ public class Game {
 				}
 				this.area[i][0] = 0;
 			}
+		}
+		
+		
+		private void findNestedBubbles(){
+			for (int i = 0; i<this.getHeight(); i++){
+				for (int j = 0; j<this.getWidth(); j++){
+					if (getValAt(i, j) == 0 && !sameValue(0, i, j, 't')){
+						bubbleUp(i, j);
+					}
+				}
+			}
+		}
+		
+		private void findNestedSlots(){
+			for (int i = 0; i<this.getWidth(); i++){
+				if (getValAt(this.getHeight()-1, i) == 0 && ! this.sameValue(0, this.getHeight()-1, i, 'l') ){
+					fillVerticalGap(i);
+				}
+			}
+		}
+		
+		
+		private void bubbleUp(int x, int y){
+			for(int i = x; i > 0; i--){
+				this.area[i][y] = this.getValAt(i-1, y);
+			}
+			this.area[0][y] = 0;
 		}
 		
 		public int getHeight(){
