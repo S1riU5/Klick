@@ -32,7 +32,13 @@ public class cliUI {
 		while (true) {
 			int[] deleteAt;
 			printPlayground();
-			deleteAt = fetchUserInput();
+			try{
+				deleteAt = fetchUserInput();
+			} catch (IllegalArgumentException e){
+				System.out.printf("Error: %s", e);
+				continue;
+			}
+			
 			deleteElement(deleteAt[0], deleteAt[1]);
 			game.cleanBoard();
 		}
@@ -77,7 +83,13 @@ public class cliUI {
 		int y = -1;
 		try {
 			x = readInt("Vertical- - >>> ");
+			if (x > game.getBoardHeight()){
+				throw new IllegalArgumentException("Wertebereich überschritten");
+			}
 			y = readInt("Horizontal- >>> ");
+			if (y > game.getBoardWidth()){
+				throw new IllegalArgumentException("Wertebereich überschritten");
+			}
 		} catch (IOException e) {
 			errOutput(e.getMessage());
 		}

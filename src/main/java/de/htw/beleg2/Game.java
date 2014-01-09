@@ -6,10 +6,11 @@ public class Game {
 /**
  * class Game
  * 
- * Includes thge logical part of the game.
+ * Includes the logical part of the game.
  * @include board   (class)
  */
 	Board board;
+	private int points = 0;
 	
 	public Game(int height, int width, int cols){
 		/**
@@ -22,6 +23,28 @@ public class Game {
 		 * @param int cols		Amount of the Colors 
 		 */
 		board = new Board(height, width, cols);
+	}
+	
+	private int getFreeSpaces(){
+		int value = 0;
+		for (int i = 0 ; i < getBoardHeight(); i++){
+			for (int j = 0; j < getBoardWidth(); j++){
+				if (getValue(i, j) == 0){
+					value += 1;
+				}
+			}
+		}
+		return value;
+	}
+	
+	private int getValueOfFreeSlots(){
+		int value = 0;
+		for (int i = 0; i < getBoardWidth(); i++){
+			if (getValue(getBoardHeight(), i) == 0){
+				value += 1;
+			}
+		}
+		return value;
 	}
 	
 	
@@ -38,6 +61,7 @@ public class Game {
 		 */
 		return low + (int)(random() * ((high - low) + 1));
 	}
+	
 	
 	public int getColor(int x, int y){
 		/**
@@ -57,8 +81,10 @@ public class Game {
 	}
 	
 	public void delete(int x, int y){
-		if (board.valueOfEqualNeighbors(x, y) > 0)
-			board.deleteElement(x, y);
+		int endValue, startValue = getFreeSpaces();
+		
+		if (board.valueOfEqualNeighbors(x, y) > 0 && getValue(x,y) != 0)
+			board.deleteEqualNeighbors(x, y);
 	}
 	
 	public int getBoardWidth(){
@@ -111,9 +137,7 @@ public class Game {
 			 * @param width
 			 * @param cols
 			 */
-			System.out.printf("height: %s\t width: %s\tColors: %s\n", height, width, cols); // debug
 			this.area = new int[height][width];
-			//System.out.printf("%s\n", this.area[0].length); //debug
 			initField(cols);
 		}
 
@@ -130,15 +154,6 @@ public class Game {
 		}
 		
 		public int getValAt(int x, int y){
-			//FIXEDME IndexOutOfBoundsException
-			//TODO May the problem don't occur anymore, but keep it in sight
-			// Maybe there is a Problem in parsing the chars t,b , l, r
-			// to the actual direction..
-			// Switched them yet but nothing changed.
-			// but its the call from:
-			// >> sameValue() <<
-			
-			//System.out.printf("x:\t%s\ty:\t%s", x, y); //debug
 			return area[x][y];
 		}
 		
@@ -238,8 +253,6 @@ public class Game {
 			 * @throws IllegalStateException	
 			 * if direction is not valid
 			 */	
-	
-			
 			
 			// If the earth a disc, be aware of the abyss!
 			if (	(y == 0 					&& direction == 'l')|| 
@@ -247,12 +260,10 @@ public class Game {
 					(x == 0						&& direction == 't')||
 					(x >= this.getHeight()-1  	&& direction == 'b'))
 				return false;
-			//System.out.printf("not at border\t"); //debug
 			int valueThere;
-			//System.out.printf("x: %s\t direction: %s\n", x, direction);
+			
 			switch (direction){
 			case 'b':		
-				//System.out.printf("/t/t%s", this.getHeight());//debug
 				valueThere = getValAt(x+1  , y);
 				break;
 			case 'r':
@@ -265,7 +276,6 @@ public class Game {
 				valueThere = getValAt(x, y-1);
 			}
 			//return true if equal
-			//System.out.printf("\t%s=%s => %s\n",valueHere, valueThere, valueHere == valueThere); //debug
 			return (valueHere == valueThere);	
 		}
 
@@ -334,7 +344,6 @@ public class Game {
 			// If there are gaps they won't be filled
 			for(int i = 1; i < this.getHeight(); i++){
 				for (int j = 0; j < this.getWidth(); j++){
-					//System.out.printf("findGap");
 					// If Gap and top of position is not 
 					if(this.getValAt(i, j) == 0 && !sameValue(0, i,j, 't')){
 						if (count > 0){
