@@ -1,6 +1,8 @@
 package de.htw.beleg2;
 import static java.lang.Math.random;
 
+//TODO endstatus ... Gamestarter and Highscore
+
 
 public class Game {
 /**
@@ -11,6 +13,8 @@ public class Game {
  */
 	Board board;
 	private int points = 0;
+	private int[][] past;
+	int latestPoints;
 	
 	public Game(int height, int width, int cols){
 		/**
@@ -23,6 +27,7 @@ public class Game {
 		 * @param int cols		Amount of the Colors 
 		 */
 		board = new Board(height, width, cols);
+		past = new int[height][width];
 	}
 	
 	private int getFreeSpaces(){
@@ -39,12 +44,66 @@ public class Game {
 	
 	private int getValueOfFreeSlots(){
 		int value = 0;
-		for (int i = 0; i < getBoardWidth(); i++){
-			if (getValue(getBoardHeight(), i) == 0){
+		for (int i = 0; i < getBoardWidth()-1; i++){
+			if (getValue(getBoardHeight()-1, i) == 0){
 				value += 1;
 			}
 		}
 		return value;
+	}
+	
+	public void tardis(){
+		if (past != null){
+			System.out.printf("tschiuuuchiiiuuuu..\t damm dadadadam dididam .. uuuuuiiiiiiiuuuuuuuu\n");
+			for (int i = 0; i < getBoardHeight(); i++){
+				for (int j = 0; j < getBoardWidth(); j++){
+					board.area[i][j] = past[i][j];
+				}
+			}
+			points -= latestPoints;
+			latestPoints = 0;
+		}
+	}
+	
+	public void saveBoard(){
+		for (int i = 0; i < getBoardHeight(); i++){
+			for (int j = 0; j < getBoardWidth(); j++){
+				past[i][j] = board.area[i][j];
+			}
+		}
+	}
+	
+	public int status(){
+		int stat = checkBoard();
+		
+		if (stat != 0){
+			//GAME OVER
+			if (stat < 0){
+				// LOOSER
+			}
+			else{
+				// WINNER
+			}
+		}
+		//GO ON
+		
+		return stat;
+	}
+	
+	private int checkBoard(){
+		/**
+		 * check Board 
+		 * 
+		 * GameOver?
+		 * 
+		 * @returns int  0 play on; -1 game lost; +1 game won
+		 */
+		if ( !board.empty() && !board.over() )
+			return 0;
+		else if (board.empty())
+			return 1;
+		else
+			return -1;
 	}
 	
 	
@@ -81,10 +140,26 @@ public class Game {
 	}
 	
 	public void delete(int x, int y){
-		int endValue, startValue = getFreeSpaces();
-		
+		int pts;
+		int startValue = getFreeSpaces();
+		int startSlotValue = getValueOfFreeSlots();
 		if (board.valueOfEqualNeighbors(x, y) > 0 && getValue(x,y) != 0)
 			board.deleteEqualNeighbors(x, y);
+		pts = calcPoints(getFreeSpaces() - startValue) + calcSlotBonus(getValueOfFreeSlots()- startSlotValue);
+		points += pts; 
+		latestPoints = pts;
+	}
+	
+	public int getPoints(){
+		return points;
+	}
+	
+	private int calcPoints(int val){
+		return 2 * val - 2;
+	}
+	
+	private int calcSlotBonus(int val){
+		return 10 * val;
 	}
 	
 	public int getBoardWidth(){
@@ -194,11 +269,11 @@ public class Game {
 				right = true;
 			}
 			/*
-			 *  *  *  *  *  *  *  *   >
+			 *  *  *  *  *  *  *  *   
 			 */
-			deleteElement(x,y);// *   >  >
+			deleteElement(x,y);// *            
 			/*
-			 *  *  *  *  *  *  *  *   >
+			 *  *  *  *  *  *  *  *   
 			 */
 			if (top){
 				deleteEqualNeighbors(x-1  , y);
@@ -243,7 +318,7 @@ public class Game {
 			/**
 			 * sameValue
 			 * 
-			 * Compares two bordering spaces.
+			 * Compares Integer and the neighbor of one space.
 			 * 
 			 * @param int x		column
 			 * @param int y		row
@@ -284,7 +359,7 @@ public class Game {
 			this.area[x][y] = 0;
 		}
 		
-		private boolean boardEmpty(){
+		private boolean empty(){
 			/**
 			 * empty
 			 * 
@@ -297,6 +372,18 @@ public class Game {
 				}
 			}
 			return (true);
+		}
+		
+		private boolean over(){
+			for (int i = 0; i < this.getHeight(); i++){
+				for (int j = 0; j < this.getWidth(); j++){
+					// Not zero and equal neighbors
+					if (this.getValAt(i, j) != 0 && this.valueOfEqualNeighbors(i, j) != 0){
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 		
 		public void fillGaps(){
@@ -318,7 +405,7 @@ public class Game {
 			}while(!finished);
 			
 			for (int i = 1; i < this.getWidth(); i++){
-				if (this.getValAt(this.getHeight()-1, i) 		== 0 && 
+				if (this.getValAt(this.getHeight()-1, i) 	== 0 && 
 					this.getValAt(this.getHeight()-1, i-1) 	!= 0) {
 					fillVerticalGap(i);
 				}

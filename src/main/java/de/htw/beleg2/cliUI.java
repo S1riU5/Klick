@@ -16,31 +16,89 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		// Init a Game-Object
-		// TODO Method to set easy Playground
-		game = new Game(10, 10, 3); //(height, width, colors)
-
-		// Start the Gameloop
-		// TODO Exception needed? If yes, which?
-		runloop();
+		masterloop();
 	}
-
-	private void runloop() {
+	
+	private void masterloop(){
+		int h,w,c, p;
+		System.out.printf("Daten eingeben:\n\n");
+		System.out.printf("\t Höhe des Spielfelds:\n");
+		h = inputInt(10,40);
+		System.out.printf("\t Breite des Spielfelds:\n");
+		w = inputInt(10,40);
+		System.out.printf("\tAnzahl der Farben:\n");
+		c = inputInt(2,5);
+		
+		game = new Game(h,w,c);
+		p = runloop();
+	}	
+	
+	private Integer inputInt(int from , int to){
 		/**
 		 * 
 		 */
-		while (true) {
-			int[] deleteAt;
-			printPlayground();
+		Integer  val = null;
+		
+		while (true){ 
 			try{
-				deleteAt = fetchUserInput();
-			} catch (IllegalArgumentException e){
-				System.out.printf("Error: %s", e);
+				val = readInt(">>> ");
+			}
+			catch (IOException e){
+				System.out.printf("Error: %s\n", e.getMessage());
 				continue;
 			}
-			
+			if (val < from || val > to){
+				System.out.printf("Error: %s\n", "Wertebereich überschritten!");
+				continue;
+			}			
+			break;
+		};
+		return val;
+	}
+	
+
+
+	private int runloop() {
+		/**
+		 * 
+		 */
+		boolean initRun = true;
+		boolean gameover = false;
+		
+		while (!gameover) {
+			int[] deleteAt;
+			printPlayground();
+			if (!initRun)
+				askUndo();
+			initRun = false;			
+			game.saveBoard();		
+			try{
+				deleteAt = fetchUserInput();
+			} 
+			catch (IllegalArgumentException e){
+				System.out.printf("Error: %s", e);
+				continue;
+			}		
 			deleteElement(deleteAt[0], deleteAt[1]);
-			game.cleanBoard();
+			game.cleanBoard();			
+			if (game.status() != 0){
+				gameover = true;
+			}
+		}
+		return game.getPoints();
+	}
+	
+	private void askUndo(){
+		String answer = "";
+		try{
+			answer = readString("Undo? y[n] >>> ");
+		} 
+		catch (IOException e) {
+			errOutput(e.getMessage());
+		}
+		if (answer.equals("y") || answer.equals("Y")){
+			game.tardis();
+			printPlayground();
 		}
 	}
 
@@ -48,7 +106,7 @@ public class cliUI {
 		/**
 		 * 
 		 */
-		System.out.printf("\n \n");
+		System.out.printf("\n \tPunkte: %08d \n" , game.getPoints());
 		System.out.printf("\t");
 		for (int i = 0; i < game.getBoardWidth(); i++)
 			System.out.printf("%2d ", i);
@@ -110,9 +168,7 @@ public class cliUI {
 		int usrInput;
 
 		out.printf("%s", outPt);
-		
-		
-		
+				
 		// Do we have to save the BufferedReader?
 		// And if yes, what will be the return value ??
 		BufferedReader br = new BufferedReader(
@@ -126,7 +182,7 @@ public class cliUI {
 		return usrInput;
 	}
 
-	@SuppressWarnings("unused")
+
 	private String readString(String outPt) throws IOException {
 		/**
 		 * 
@@ -136,7 +192,7 @@ public class cliUI {
 		out.printf("%s", outPt);
 		Scanner scanstr = new Scanner(System.in);
 		usrInput = scanstr.nextLine();
-		scanstr.close();
+		//scanstr.close();
 		return usrInput;
 	}
 
