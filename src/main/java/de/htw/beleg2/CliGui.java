@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -29,10 +31,13 @@ public class CliGui extends JFrame {
     /**
      * Mainloop for the GUI
      */
-    private Game game = new Game(4, 4, 2);
+    private Game game = new Game(16, 16, 3);
     private JButton[][] boards;
+    private int  height;
+    private int width;
+    
 
-    public void runGUI() {
+    public CliGui() {
         runloop();
 
     }
@@ -50,7 +55,7 @@ public class CliGui extends JFrame {
 
     public void HightWidthselection() {
         // define window
-        JFrame hws = new JFrame("Auswahl Feldgrï¿½ï¿½e");
+        final JFrame hws = new JFrame("select Fieldsize");
 
         // define Closeoperation
         hws.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,12 +79,13 @@ public class CliGui extends JFrame {
         internSel.setBorder(BorderFactory.createTitledBorder("Selection"));
 
         // create textfields
-        JTextField highttext = new JTextField();
-        JTextField widthtext = new JTextField();
+        final JTextField highttext = new JTextField();
+        final JTextField widthtext = new JTextField();
 
         // create JLables for internal Panel
-        JLabel hight = new JLabel("Höhe");
-        JLabel width = new JLabel("Breite");
+        JLabel hight = new JLabel("heigtht");
+        JLabel width = new JLabel("width");
+        JButton OK = new JButton("OK");
 
         // set size of textfield
         highttext.setPreferredSize(new Dimension(100, 20));
@@ -90,6 +96,7 @@ public class CliGui extends JFrame {
         internSel.add(highttext);
         internSel.add(width);
         internSel.add(widthtext);
+        internSel.add(OK);
 
         // insert internal panale to covering panel
         selection.add(internSel, BorderLayout.CENTER);
@@ -97,6 +104,23 @@ public class CliGui extends JFrame {
         // add panels to frame
         hws.add(selection);
 
+        //add actionlistener
+        
+        OK.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                String height= highttext.getText();
+                String width = widthtext.getText();
+                CliGui.this.width=Integer.parseInt(width);
+                CliGui.this.height=Integer.parseInt(height);
+                hws.setVisible(false);
+                
+                
+            }
+        });
+        
+        
+        
         // set size of windwo
         hws.setSize(410, 100);
 
@@ -116,19 +140,22 @@ public class CliGui extends JFrame {
         frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(), BoxLayout.Y_AXIS));
 
         // Set menu Buttons
-        JButton Colors = new JButton("Farben");
-        JButton Board = new JButton("Spielfeld");
-        JButton Play = new JButton("Spiele");
-        JButton Close = new JButton("Schließen");
+        JButton Highscore = new JButton("Highscore");
+        JButton Colors = new JButton("Colors");
+        JButton Board = new JButton("Board size");
+        JButton Play = new JButton("Play");
+        JButton Close = new JButton("Close");
 
         // set buttonsize
+        Highscore.setMaximumSize(new Dimension(250, 300));
         Colors.setMaximumSize(new Dimension(250, 300));
         Board.setMaximumSize(new Dimension(250, 300));
         Play.setMaximumSize(new Dimension(250, 300));
         Close.setMaximumSize(new Dimension(250, 300));
 
         // add Buttons
-
+        
+        frameMenu.add(Highscore,Component.CENTER_ALIGNMENT);
         frameMenu.add(Colors, Component.CENTER_ALIGNMENT);
         frameMenu.add(Board, Component.CENTER_ALIGNMENT);
         frameMenu.add(Play, Component.CENTER_ALIGNMENT);
@@ -142,7 +169,46 @@ public class CliGui extends JFrame {
         frameMenu.setVisible(true);
 
         // add Action Listener
-
+        Highscore.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent arg0) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+        
+        Colors.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                colorSelection();
+                
+            }
+        });
+        
+        Board.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                HightWidthselection();
+                
+            }
+        });
+        
+        Play.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                buttonBoard();
+                
+            }
+        });
+        
+        
+        Close.addActionListener(new ActionListener() {
+            
+            public void actionPerformed(ActionEvent e) {
+                frameMenu.setVisible(false);
+                
+            }
+        });
     }
 
     public void colorSelection() {
@@ -156,11 +222,11 @@ public class CliGui extends JFrame {
         frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(), BoxLayout.Y_AXIS));
 
         // Set menu Buttons
-        JButton tow = new JButton("2 Farben");
-        JButton three = new JButton("3 Farben");
-        JButton four = new JButton("4 Farben");
-        JButton five = new JButton("5 Farben");
-
+        JButton tow = new JButton("2 Colors");
+        JButton three = new JButton("3 Colors");
+        JButton four = new JButton("4 Colors");
+        JButton five = new JButton("5 Colors");
+        
         // set buttonsize
         tow.setMaximumSize(new Dimension(250, 300));
         three.setMaximumSize(new Dimension(250, 300));
