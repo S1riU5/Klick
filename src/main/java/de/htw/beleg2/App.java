@@ -30,8 +30,7 @@ public class App {
             cliUI ui = new cliUI();
         } else {
             CliGui GUI = new CliGui();
-            GUI.colorSelection();
-            GUI.buttonBoard();
+           
         }
     }
 }

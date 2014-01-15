@@ -208,6 +208,13 @@ public class Game {
 			 * @param width
 			 * @param cols
 			 */
+		   // Checking boardsize
+		     
+		     width = (width >40) ? 40 : width;
+		     width = (width <10) ? 10 : width;
+		     height = (height < 10) ? 10 : height;
+		     height = (height > 40) ? 40 : height;
+		     
 			this.area = new int[height][width];
 			initField(cols);
 		}

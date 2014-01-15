@@ -8,14 +8,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 //sebsch use the Gameclass!
 
@@ -31,13 +27,18 @@ public class CliGui extends JFrame {
     /**
      * Mainloop for the GUI
      */
-    private Game game = new Game(16, 16, 3);
+    private JFrame boardFrame;
+    private Game game;
     private JButton[][] boards;
-    private int  height;
-    private int width;
-    
+    private int height = 16;
+    private int width = 16;
+    private int numcol = 2;
+    private JLabel Score;
+    private TopTen scoreboard;
+    private JFrame gameover;
 
     public CliGui() {
+         scoreboard = new TopTen();
         runloop();
 
     }
@@ -50,15 +51,14 @@ public class CliGui extends JFrame {
     }
 
     /**
-     * Window method combines the menu and board
+     * menu to select the size of the gameboard
      */
 
     public void HightWidthselection() {
         // define window
         final JFrame hws = new JFrame("select Fieldsize");
 
-        // define Closeoperation
-        hws.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
 
         // set Layout of the windwo
         hws.setLayout(new FlowLayout());
@@ -104,37 +104,36 @@ public class CliGui extends JFrame {
         // add panels to frame
         hws.add(selection);
 
-        //add actionlistener
-        
+        // add actionlistener
+
         OK.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
-                String height= highttext.getText();
+                String height = highttext.getText();
                 String width = widthtext.getText();
-                CliGui.this.width=Integer.parseInt(width);
-                CliGui.this.height=Integer.parseInt(height);
+                CliGui.this.width = Integer.parseInt(width);
+                CliGui.this.height = Integer.parseInt(height);
                 hws.setVisible(false);
-                
-                
+
             }
         });
-        
-        
-        
-        // set size of windwo
+
+        // set size of window
         hws.setSize(410, 100);
 
-        // set windwo visible
+        // set window visible
         hws.setVisible(true);
 
     }
 
+    /**
+     * Creates menu for all settings and to start the game
+     */
     public void menu() {
         // Definiere Fenster
         final JFrame frameMenu = new JFrame("Klickibunti Menu");
 
-        // schli�e fenster
-        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         // set Layout window
         frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(), BoxLayout.Y_AXIS));
@@ -154,8 +153,8 @@ public class CliGui extends JFrame {
         Close.setMaximumSize(new Dimension(250, 300));
 
         // add Buttons
-        
-        frameMenu.add(Highscore,Component.CENTER_ALIGNMENT);
+
+        frameMenu.add(Highscore, Component.CENTER_ALIGNMENT);
         frameMenu.add(Colors, Component.CENTER_ALIGNMENT);
         frameMenu.add(Board, Component.CENTER_ALIGNMENT);
         frameMenu.add(Play, Component.CENTER_ALIGNMENT);
@@ -170,53 +169,55 @@ public class CliGui extends JFrame {
 
         // add Action Listener
         Highscore.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                
+
             }
         });
-        
+
         Colors.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
                 colorSelection();
-                
+
             }
         });
-        
+
         Board.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
                 HightWidthselection();
-                
+
             }
         });
-        
+
         Play.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
                 buttonBoard();
-                
+
             }
         });
-        
-        
+
         Close.addActionListener(new ActionListener() {
-            
+
             public void actionPerformed(ActionEvent e) {
                 frameMenu.setVisible(false);
-                
+
             }
         });
     }
+
+    /**
+     * Menu to select the Colors
+     */
 
     public void colorSelection() {
         // Definiere Fenster
         final JFrame frameMenu = new JFrame("Farbenanzahl");
 
-        // schli�e fenster
-        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       
 
         // set Layout window
         frameMenu.setLayout(new BoxLayout(frameMenu.getContentPane(), BoxLayout.Y_AXIS));
@@ -226,7 +227,7 @@ public class CliGui extends JFrame {
         JButton three = new JButton("3 Colors");
         JButton four = new JButton("4 Colors");
         JButton five = new JButton("5 Colors");
-        
+
         // set buttonsize
         tow.setMaximumSize(new Dimension(250, 300));
         three.setMaximumSize(new Dimension(250, 300));
@@ -246,23 +247,81 @@ public class CliGui extends JFrame {
         // Display window
         frameMenu.setVisible(true);
         // add Action Listener
+        tow.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent arg0) {
+                numcol = 2;
+                frameMenu.setVisible(false);
+
+            }
+        });
+        three.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                numcol = 3;
+                frameMenu.setVisible(false);
+
+            }
+        });
+
+        four.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                numcol = 4;
+                frameMenu.setVisible(false);
+
+            }
+        });
+
+        five.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                numcol = 5;
+                frameMenu.setVisible(false);
+
+            }
+        });
     }
 
     /**
-     * ButtonBoard creat's the GUI Board
-     * 
-     * @param hight
-     * @param width
-     * @param boardUI
+     * creates a Board Window
      */
 
     public void buttonBoard() {
+        game = new Game(height, width, numcol);
         final int height = game.getBoardHeight();
         final int width = game.getBoardWidth();
 
-        JFrame boardFrame = new JFrame("Klickibunti");
+        boardFrame = new JFrame("Klickibunti");
+        JMenuBar Bar = new JMenuBar();
+        Score = new JLabel();
+        JMenu gamemen = new JMenu("Game");
+        JMenuItem undo = new JMenuItem("Undo");
+        JMenuItem close = new JMenuItem("Close");
+        boardFrame.setJMenuBar(Bar);
+        Bar.add(gamemen);
+        gamemen.add(undo);
+        gamemen.add(close);
+        Bar.add(Score);
+        // add ActionListener
+        undo.addActionListener(new ActionListener() {
 
-        boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            public void actionPerformed(ActionEvent e) {
+                game.tardis();
+                rebuild();
+
+            }
+        });
+
+        close.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                boardFrame.setVisible(false);
+
+            }
+        });
+
+       
 
         boards = new JButton[height][width];
 
@@ -288,12 +347,14 @@ public class CliGui extends JFrame {
         }
         rebuild();
 
-        boardFrame.setSize(410, 200);
+        boardFrame.setSize(800, 700);
         boardFrame.setVisible(true);
 
     }
 
     private void rebuild() {
+
+        boolean finished = false;
 
         for (int i = 0; i < game.getBoardHeight(); i++) {
 
@@ -311,22 +372,64 @@ public class CliGui extends JFrame {
                         button.setEnabled(false);
                         break;
                     case 1:
-                        button.setBackground(new Color(24, 0, 243));
+                        button.setBackground(Color.RED);
                         break;
                     case 2:
-                        button.setBackground(new Color(255, 249, 43));
+                        button.setBackground(Color.BLUE);
                         break;
                     case 3:
-                        button.setBackground(new Color(7, 249, 55));
+                        button.setBackground(Color.GREEN);
                         break;
                     case 4:
-                        button.setBackground(new Color(255, 17, 0));
+                        button.setBackground(Color.YELLOW);
                         break;
                     case 5:
-                        button.setBackground(new Color(255, 17, 0));
+                        button.setBackground(Color.MAGENTA);
                         break;
                 }
+
+                if (game.status() != 0) {
+                    finished = true;
+                    break;
+                }
+
+            }
+            if (finished == true) {
+                this.scoreboard.saveHighscore(game.getPoints());
+                this.boardFrame.dispose();
+                Gameover();
+               
+                break;
+
             }
         }
+        Score.setText("Score: " + game.getPoints());
+    }
+
+    public void Gameover() {
+        gameover = new JFrame();
+        gameover.setLayout(new BoxLayout(gameover.getContentPane(), BoxLayout.Y_AXIS));
+        String HString = "<HTML><ol>";
+
+        JLabel score = new JLabel();
+
+        JLabel Highscore = new JLabel();
+        Highscore.setSize(60, 197);
+    
+        for (int points : scoreboard.getHighscore()) {
+           // HString += ("<b>" + count + ": </b>" + points + "<BR>");
+            HString += ("<li>" + points + "</li>");
+        }
+        
+        HString += "</ol></HTML>";
+        Highscore.setText(HString);
+
+        score.setText("Score: " + game.getPoints());
+
+        gameover.add(score, Component.CENTER_ALIGNMENT);
+        gameover.add(Highscore, Component.LEFT_ALIGNMENT); 
+        gameover.setSize(120, 300);
+        gameover.setVisible(true);
+
     }
 }

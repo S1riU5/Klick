@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
  */
 public class TileActionlistener implements ActionListener {
 
+   
     private int choordX;
     private int choordY;
 
@@ -25,7 +26,7 @@ public class TileActionlistener implements ActionListener {
      * @param callback a callback that may be set, to notify e.g a gui class to rebuild the view
      */
     public TileActionlistener(int choordX, int choordY, final Game game, Runnable callback) {
-
+        
         this.choordX = choordX;
         this.choordY = choordY;
 
@@ -37,7 +38,7 @@ public class TileActionlistener implements ActionListener {
      * {@inheritDoc}
      */
     public void actionPerformed(ActionEvent arg0) {
-
+        game.saveBoard();
         game.delete(choordX, choordY);
         game.cleanBoard();
 

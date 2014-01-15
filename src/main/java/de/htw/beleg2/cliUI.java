@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.NumberFormatException;
 import java.util.Scanner; //input
+
 import static java.lang.System.out; //output 
 
 public class cliUI {
@@ -46,31 +47,6 @@ public class cliUI {
 		}
 	}	
 	
-	private Integer inputInt(int from , int to){
-		/**
-		 * 
-		 */
-		Integer  val = null;
-		
-		while (true){ 
-			try{
-				val = readInt(">>> ");
-			}
-			catch (IOException e){
-				System.out.printf("Error: %s\n", e.getMessage());
-				continue;
-			}
-			if (val < from || val > to){
-				System.out.printf("Error: %s\n", "Wertebereich überschritten!");
-				continue;
-			}			
-			break;
-		};
-		return val;
-	}
-	
-
-
 	private int runloop() {
 		/**
 		 * 
@@ -101,7 +77,30 @@ public class cliUI {
 		return game.getPoints();
 	}
 	
-	private void askUndo(){
+	private Integer inputInt(int from , int to){
+    	/**
+    	 * 
+    	 */
+    	Integer  val = null;
+    	
+    	while (true){ 
+    		try{
+    			val = readInt(">>> ");
+    		}
+    		catch (IOException e){
+    			System.out.printf("Error: %s\n", e.getMessage());
+    			continue;
+    		}
+    		if (val < from || val > to){
+    			System.out.printf("Error: %s\n", "Wertebereich überschritten!");
+    			continue;
+    		}			
+    		break;
+    	};
+    	return val;
+    }
+
+    private void askUndo(){
 		String answer = "";
 		try{
 			answer = readString("Undo? y[n] >>> ");
