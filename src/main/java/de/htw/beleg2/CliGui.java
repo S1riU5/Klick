@@ -17,16 +17,13 @@ import javax.swing.*;
 
 /**
  * 
- * @author simon GUI Class
+ * GUI Class
  * 
  */
 public class CliGui extends JFrame {
 
     private static final long serialVersionUID = -1286802610738061627L;
 
-    /**
-     * Mainloop for the GUI
-     */
     private JFrame boardFrame;
     private Game game;
     private JButton[][] boards;
@@ -37,6 +34,10 @@ public class CliGui extends JFrame {
     private TopTen scoreboard;
     private JFrame gameover;
 
+    /**
+     * konstruktor run the GUI
+     */
+  
     public CliGui() {
          scoreboard = new TopTen();
         runloop();
@@ -44,7 +45,7 @@ public class CliGui extends JFrame {
     }
 
     /**
-     * runloop method
+     * runloop method to start menu();
      */
     public void runloop() {
         menu();
@@ -107,7 +108,10 @@ public class CliGui extends JFrame {
         // add actionlistener
 
         OK.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action 
+             * save the parses string ton integer and save integer to variable
+             */
             public void actionPerformed(ActionEvent e) {
                 String height = highttext.getText();
                 String width = widthtext.getText();
@@ -127,7 +131,7 @@ public class CliGui extends JFrame {
     }
 
     /**
-     * Creates menu for all settings and to start the game
+     * Create menu for all settings and to start the game
      */
     public void menu() {
         // Definiere Fenster
@@ -146,7 +150,7 @@ public class CliGui extends JFrame {
         JButton Close = new JButton("Close");
 
         // set buttonsize
-        Highscore.setMaximumSize(new Dimension(250, 300));
+        
         Colors.setMaximumSize(new Dimension(250, 300));
         Board.setMaximumSize(new Dimension(250, 300));
         Play.setMaximumSize(new Dimension(250, 300));
@@ -154,7 +158,7 @@ public class CliGui extends JFrame {
 
         // add Buttons
 
-        frameMenu.add(Highscore, Component.CENTER_ALIGNMENT);
+       
         frameMenu.add(Colors, Component.CENTER_ALIGNMENT);
         frameMenu.add(Board, Component.CENTER_ALIGNMENT);
         frameMenu.add(Play, Component.CENTER_ALIGNMENT);
@@ -167,17 +171,12 @@ public class CliGui extends JFrame {
         // Display window
         frameMenu.setVisible(true);
 
-        // add Action Listener
-        Highscore.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
+      
         Colors.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * Open Color select menu
+             */
             public void actionPerformed(ActionEvent e) {
                 colorSelection();
 
@@ -185,15 +184,22 @@ public class CliGui extends JFrame {
         });
 
         Board.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * Open select size menu
+             */
             public void actionPerformed(ActionEvent e) {
                 HightWidthselection();
 
             }
         });
-
+      
         Play.addActionListener(new ActionListener() {
-
+            
+            /**
+             * Create performed action
+             * Creates the board
+             */
             public void actionPerformed(ActionEvent e) {
                 buttonBoard();
 
@@ -201,7 +207,10 @@ public class CliGui extends JFrame {
         });
 
         Close.addActionListener(new ActionListener() {
-
+            /**
+             *  Create performed action
+             *  Set the Window Unvisable 
+             */
             public void actionPerformed(ActionEvent e) {
                 frameMenu.setVisible(false);
 
@@ -256,7 +265,11 @@ public class CliGui extends JFrame {
             }
         });
         three.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * save the number of colors
+             * set Windowunvisable
+             */
             public void actionPerformed(ActionEvent e) {
                 numcol = 3;
                 frameMenu.setVisible(false);
@@ -265,7 +278,11 @@ public class CliGui extends JFrame {
         });
 
         four.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * save the number of colors
+             * set Window unvisable
+             */
             public void actionPerformed(ActionEvent e) {
                 numcol = 4;
                 frameMenu.setVisible(false);
@@ -274,7 +291,11 @@ public class CliGui extends JFrame {
         });
 
         five.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * save the number of colors
+             * set Window unvisable
+             */
             public void actionPerformed(ActionEvent e) {
                 numcol = 5;
                 frameMenu.setVisible(false);
@@ -285,10 +306,11 @@ public class CliGui extends JFrame {
 
     /**
      * creates a Board Window
+     * 
      */
 
     public void buttonBoard() {
-        game = new Game(height, width, numcol);
+        game = new Game(height,width, numcol);
         final int height = game.getBoardHeight();
         final int width = game.getBoardWidth();
 
@@ -305,7 +327,11 @@ public class CliGui extends JFrame {
         Bar.add(Score);
         // add ActionListener
         undo.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * undo last step
+             * rebuild window
+             */
             public void actionPerformed(ActionEvent e) {
                 game.tardis();
                 rebuild();
@@ -314,7 +340,10 @@ public class CliGui extends JFrame {
         });
 
         close.addActionListener(new ActionListener() {
-
+            /**
+             * Create performed action
+             * set Window unvisable
+             */
             public void actionPerformed(ActionEvent e) {
                 boardFrame.setVisible(false);
 
@@ -351,6 +380,10 @@ public class CliGui extends JFrame {
         boardFrame.setVisible(true);
 
     }
+    
+    /**
+     * rebuild the gameboard (button array)
+     */
 
     private void rebuild() {
 
@@ -405,7 +438,9 @@ public class CliGui extends JFrame {
         }
         Score.setText("Score: " + game.getPoints());
     }
-
+/**
+ * creat a Windwo  with hightscore
+ */
     public void Gameover() {
         gameover = new JFrame();
         gameover.setLayout(new BoxLayout(gameover.getContentPane(), BoxLayout.Y_AXIS));

@@ -4,9 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * TODO: javadoc
- * 
- * @author simon
+ *ActionListener Class
  */
 public class TileActionlistener implements ActionListener {
 
@@ -33,10 +31,11 @@ public class TileActionlistener implements ActionListener {
         this.game = game;
         this.callback = callback;
     }
-
-    /**
-     * {@inheritDoc}
-     */
+           /**
+             * Create performed action
+             * save the board change color
+             * clear board
+           **/
     public void actionPerformed(ActionEvent arg0) {
         game.saveBoard();
         game.delete(choordX, choordY);
